@@ -3,6 +3,14 @@ pragma solidity ^0.8.9;
 
 contract Blems{
 
+    // System admin address
+    address public admin;
+
+    // Constructor to set admin address
+    constructor() {
+        admin = msg.sender;
+    }
+
     struct Police_Officer {
         string fname;
         string lname;
