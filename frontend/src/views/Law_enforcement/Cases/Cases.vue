@@ -171,7 +171,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="font-bold text-gray-800">
-                                            Pius B. Semufali (Lawyer)
+                                            Julie J. Doe(Lawyer)
                                         </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
@@ -201,7 +201,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="font-bold text-gray-800">
-                                            Pius B. Semufali (Lawyer)
+                                            Julie J. Doe(Lawyer)
                                         </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
@@ -231,7 +231,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="font-bold text-gray-800">
-                                            Pius B. Semufali (Lawyer)
+                                            Julie J. Doe(Lawyer)
                                         </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
@@ -261,7 +261,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="font-bold text-gray-800">
-                                            Pius B. Semufali (Lawyer)
+                                            Julie J. Doe(Lawyer)
                                         </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
