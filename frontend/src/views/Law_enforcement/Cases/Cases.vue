@@ -1,6 +1,21 @@
 <template>
     <div class="w-full h-full flex-col overflow-y-auto">
         <div class="w-full flex flex-row">
+            <div @click="overlay = !overlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+                <div class="absolute top-1 right-1 text-gray-400">
+                    <span class="material-symbols-outlined text-[19px]">
+                        add
+                    </span>
+                </div>
+                <div class="bg-gray-700 rounded text-gray-300 h-10 w-10 flex items-center justify-center">
+                    <span class="material-symbols-outlined">
+                        inventory_2
+                    </span>
+                </div>
+                <div class="font-semibold text-gray-700  text-[14px]"> 
+                     New case
+                </div>
+            </div>
             <div @click="overlay = !overlay" class="relative flex h-fit flex-row space-x-4 items-center w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
@@ -17,28 +32,18 @@
                 </div>
             </div>
             <div class="text-center">
-                <v-overlay v-model="overlay"></v-overlay>
+                <v-overlay v-model="overlay">
+                    <div @click="overlay = !overlay"  class="w-screen h-screen p-2 flex items-center justify-center">
+                        <NewCaseForm @close="overlay = !overlay"/>
+                    </div>
+                </v-overlay>
             </div>
-            <div @click="overlay = !overlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
-                <div class="absolute top-1 right-1 text-gray-400">
-                    <span class="material-symbols-outlined text-[19px]">
-                        add
-                    </span>
-                </div>
-                <div class="bg-gray-700 rounded text-gray-300 h-10 w-10 flex items-center justify-center">
-                    <span class="material-symbols-outlined">
-                        inventory_2
-                    </span>
-                </div>
-                <div class="font-semibold text-gray-700  text-[14px]"> 
-                     New case
-                </div>
-            </div>
+         
         </div>
         <div class="my-8">
             <div class="flex flex-col">
                 <div class=" text-xl text-gray-800  mb-4 font-semibold tracking-tighter font-sans">
-                    Recent files
+                    Recently Modified
                 </div>
                 <div class="flex flex-row xl:w-[80%] md:w-full justify-between">
                     <div class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
@@ -49,14 +54,14 @@
                         </div>
                         <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center ">
                             <span class="material-symbols-outlined">
-                                description
+                                gavel
                             </span>
                         </div>
                         <div>
-                            <div class="font-bold text-gray-700 font-sans tracking-tight ">Image</div>
+                            <div class="font-bold text-gray-700 font-sans tracking-tight ">Case 01253d</div>
                             <div class="flex flex-row space-x-2 text-sm font-[550] text-gray-600">
-                                <div>224kb</div>
-                                <div>jpeg</div>
+                                <div>Mr.Pablo against Mr.Escobar</div>
+                                
                             </div>
                         </div> 
                     </div>
@@ -68,14 +73,14 @@
                         </div>
                         <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center ">
                             <span class="material-symbols-outlined">
-                                description
+                                gavel
                             </span>
                         </div>
                         <div>
-                            <div class="font-bold text-gray-700 font-sans tracking-tight ">Image</div>
+                            <div class="font-bold text-gray-700 font-sans tracking-tight ">Case 01253d</div>
                             <div class="flex flex-row space-x-2 text-sm font-[550] text-gray-600">
-                                <div>224kb</div>
-                                <div>jpeg</div>
+                                <div>Mr.Pablo against Mr.Escobar</div>
+                                
                             </div>
                         </div> 
                     </div>
@@ -87,14 +92,14 @@
                         </div>
                         <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center ">
                             <span class="material-symbols-outlined">
-                                description
+                                gavel
                             </span>
                         </div>
                         <div>
-                            <div class="font-bold text-gray-700 font-sans tracking-tight ">Image</div>
+                            <div class="font-bold text-gray-700 font-sans tracking-tight ">Case 01153e</div>
                             <div class="flex flex-row space-x-2 text-sm font-[550] text-gray-600">
-                                <div>224kb</div>
-                                <div>jpeg</div>
+                                <div>Mr.Pablo against Mr.Escobar</div>
+                                
                             </div>
                         </div> 
                     </div>
@@ -106,21 +111,14 @@
 
         <div class="w-full flex flex-col">
             <div class=" text-xl text-gray-800 font-semibold tracking-tighter font-sans mb-4">
-                 All files
+                 All Cases
             </div>
             <div class="flex flex-row xl:w-[80%] md:w-full justify-between mb-3 ">
-                <div class="w-[30%] h-fit mt-auto justify-between min-w-fit max-md:space-x-2 border border-gray-200 rounded-md bg-main3 flex flex-row font-bold tracking-tight text-sm px-4 py-[1px] items-center transition-all duration-300 ease-in-out">
-                    <button @click="filterFiles('all')" :class="{'border bg-gray-50 text-gray-800':fileType.all}" class="text-gray-400 p-1 rounded-md">
-                        View all
-                    </button>
-                    <button @click="filterFiles('pdf')" :class="{'border bg-gray-50 text-gray-800':fileType.pdf}" class="text-gray-400 p-1 rounded-md">pdf</button>
-                    <button @click="filterFiles('images')" :class="{'border bg-gray-50 text-gray-800':fileType.images}" class="text-gray-400 p-1 rounded-md">images</button>
-                    <button @click="filterFiles('videos')" :class="{'border bg-gray-50 text-gray-800':fileType.videos}" class="text-gray-400 p-1 rounded-md">videos</button>
-                </div>
-                <div class="w-1/4 ">
+               
+                <div class="w-1/4">
                     <v-text-field
                         density="compact"
-                        class="h-1/2"
+                        class="h-1/2 text-caption font-weight-bold font-sans"
                         width="50%"
                         v-model="search"
                         label="Search"
@@ -141,10 +139,10 @@
                     <thead>
                         <tr>
                             <th  style="background-color: #ebebeb;" class="text-left w-1/3">
-                                <span class="text-md text-gray-600 font-bold">File Name</span>
+                                <span class="text-md text-gray-600 font-bold">Case</span>
                             </th>
                             <th  style="background-color: #ebebeb;" class="text-left w-1/3">
-                                <span class="text-md text-gray-600 font-bold">Uploaded By</span>
+                                <span class="text-md text-gray-600 font-bold">Added By</span>
                             </th>
                             <th  style="background-color: #ebebeb;" class="text-left w-1/3">
                                 <span class="text-md text-gray-600 font-bold">Last&nbsp;modified</span>
@@ -156,14 +154,13 @@
                             <td class="flex flex-row items-center"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
-                                        description
+                                        gavel
                                     </span>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">Image</div>
-                                    <div class="flex flex-row space-x-2 font-sans font-medium text-gray-600">
-                                        <div>224kb</div>
-                                        <div>jpeg</div>
+                                    <div class="font-bold text-gray-800">Case 01223e</div>
+                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
+                                        <div>Mr.Pablo against the United Republic of Tanzania</div>
                                     </div>
                                 </div> 
                             </td>
@@ -187,14 +184,13 @@
                             <td class="flex flex-row items-center"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
-                                        description
+                                        gavel
                                     </span>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">Image</div>
-                                    <div class="flex flex-row space-x-2 font-sans font-medium text-gray-600">
-                                        <div>224kb</div>
-                                        <div>jpeg</div>
+                                    <div class="font-bold text-gray-800">Case 01223e</div>
+                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
+                                        <div>Mr.Pablo against Mr.Escobar</div>
                                     </div>
                                 </div> 
                             </td>
@@ -218,14 +214,13 @@
                             <td class="flex flex-row items-center"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
-                                        description
+                                        gavel
                                     </span>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">Image</div>
-                                    <div class="flex flex-row space-x-2 font-sans font-medium text-gray-600">
-                                        <div>224kb</div>
-                                        <div>jpeg</div>
+                                    <div class="font-bold text-gray-800">Case 01223e</div>
+                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
+                                        <div>Mr.Pablo against Mr.Escobar</div>
                                     </div>
                                 </div> 
                             </td>
@@ -249,14 +244,13 @@
                             <td class="flex flex-row items-center"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
-                                        description
+                                        gavel
                                     </span>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">Image</div>
-                                    <div class="flex flex-row space-x-2 font-sans font-medium text-gray-600">
-                                        <div>224kb</div>
-                                        <div>jpeg</div>
+                                    <div class="font-bold text-gray-800">Case 01223e</div>
+                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
+                                        <div>The United Republic of Tanzania against Mr.Pablo</div>
                                     </div>
                                 </div> 
                             </td>
@@ -286,7 +280,9 @@
 
 <script setup>
     import {ref} from "vue"
+    import NewCaseForm from "./NewCaseForm.vue";
     const overlay = ref(false)
+    const search = ref(null)
 
     const fileType = ref({
         all:true,

@@ -1,6 +1,6 @@
 import LawEnforcementLayoutView from "@/views/Law_enforcement/Layout.vue";
-import EvidenceView from "./Evidence.vue";
-import CasesView from "./Cases.vue";
+import EvidenceView from "./Evidence/Evidence.vue";
+import CasesView from "./Cases/Cases.vue";
 import DashboardView from "./Dashboard.vue";
 import NotificationsView from "./Notifications.vue";
 
