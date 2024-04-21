@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-full flex-col overflow-y-auto">
         <div class="w-full flex flex-row">
-            <div @click="overlay = !overlay" class="relative flex h-fit flex-row space-x-4 items-center w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+            <div @click="evidenceOverlay = !evidenceOverlay" class="relative flex h-fit flex-row space-x-4 items-center w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
                         add
@@ -17,13 +17,20 @@
                 </div>
             </div>
             <div class="text-center">
-                <v-overlay v-model="overlay">
+                <v-overlay v-model="evidenceOverlay">
                     <div  class="w-screen h-screen p-2 flex items-center justify-center">
-                        <NewEvidenceForm @close="overlay = !overlay"/>
+                        <NewEvidenceForm @close="evidenceOverlay = !evidenceOverlay"/>
                     </div>
                 </v-overlay>
             </div>
-            <div @click="overlay = !overlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+            <div class="text-center">
+                <v-overlay v-model="caseOverlay">
+                    <div  class="w-screen h-screen p-2 flex items-center justify-center">
+                        <NewCaseForm @close="caseOverlay = !caseOverlay"/>
+                    </div>
+                </v-overlay>
+            </div>
+            <div @click="caseOverlay = !caseOverlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
                         add
@@ -291,7 +298,10 @@
 <script setup>
     import {ref} from "vue"
     import NewEvidenceForm from "./NewEvidenceForm.vue";
-    const overlay = ref(false)
+    import NewCaseForm from "../Cases/NewCaseForm.vue"
+
+    const evidenceOverlay = ref(false)
+    const caseOverlay = ref(false)
     const search = ref(null)
     const fileType = ref({
         all:true,

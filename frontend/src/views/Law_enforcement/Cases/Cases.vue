@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-full flex-col overflow-y-auto">
         <div class="w-full flex flex-row">
-            <div @click="overlay = !overlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+            <div @click="caseOverlay = !caseOverlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
                         add
@@ -16,7 +16,7 @@
                      New case
                 </div>
             </div>
-            <div @click="overlay = !overlay" class="relative flex h-fit flex-row space-x-4 items-center w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+            <div @click="evidenceOverlay = !evidenceOverlay" class="relative flex h-fit flex-row space-x-4 items-center w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
                         add
@@ -32,9 +32,16 @@
                 </div>
             </div>
             <div class="text-center">
-                <v-overlay v-model="overlay">
-                    <div @click="overlay = !overlay"  class="w-screen h-screen p-2 flex items-center justify-center">
-                        <NewCaseForm @close="overlay = !overlay"/>
+                <v-overlay v-model="caseOverlay">
+                    <div @click="caseOverlay = !caseOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
+                        <NewCaseForm @close="caseOverlay = !caseOverlay"/>
+                    </div>
+                </v-overlay>
+            </div>
+            <div class="text-center">
+                <v-overlay v-model="evidenceOverlay">
+                    <div @click="evidenceOverlay = !evidenceOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
+                        <newEvidenceForm @close="evidenceOverlay = !evidenceOverlay"/>
                     </div>
                 </v-overlay>
             </div>
@@ -171,7 +178,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="font-bold text-gray-800">
-                                            Julie J. Doe(Lawyer)
+                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
                                         </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
@@ -201,7 +208,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="font-bold text-gray-800">
-                                            Julie J. Doe(Lawyer)
+                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
                                         </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
@@ -231,7 +238,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="font-bold text-gray-800">
-                                            Julie J. Doe(Lawyer)
+                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
                                         </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
@@ -261,7 +268,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="font-bold text-gray-800">
-                                            Julie J. Doe(Lawyer)
+                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
                                         </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
@@ -281,7 +288,10 @@
 <script setup>
     import {ref} from "vue"
     import NewCaseForm from "./NewCaseForm.vue";
-    const overlay = ref(false)
+    import NewEvidenceForm from "../Evidence/NewEvidenceForm.vue"
+
+    const evidenceOverlay = ref(false)
+    const caseOverlay = ref(false)
     const search = ref(null)
 
     const fileType = ref({

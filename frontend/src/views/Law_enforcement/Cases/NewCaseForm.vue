@@ -46,21 +46,24 @@
                         </div>
                     </div>
                                
-                    <div v-for="n in Number(state.noOFPersons)" :key="n" class="w-full px-4 flex space-x-4 ">
-                        <div class="w-1/2">
-                            <v-text-field
-                            v-model="state.participants[n]"
-                            :error-messages="v$.participants.$errors.map(e => e.$message)"
-                            label="Participant Address"
-                            required
-                            @blur="v$.participants.$touch"
-                            @input="v$.participants.$touch"
-                            ></v-text-field>
-                        </div>
-                        <div class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
-                            Jane D. Doe <span class="text-gray-600">(Lawyer)</span> 
+                    <div v-if="state.addPersons" class="w-full">
+                        <div  v-for="n in Number(state.noOFPersons)" :key="n" class="w-full px-4 flex space-x-4 ">
+                            <div  class="w-1/2">
+                                <v-text-field
+                                v-model="state.participants[n]"
+                                :error-messages="v$.participants.$errors.map(e => e.$message)"
+                                label="Participant Address"
+                                required
+                                @blur="v$.participants.$touch"
+                                @input="v$.participants.$touch"
+                                ></v-text-field>
+                            </div>
+                            <div class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
+                                Jane D. Doe <span class="text-gray-600">(Lawyer)</span> 
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
                
 
