@@ -8,7 +8,7 @@
 
                     <!-- class="bg-main font-sans py-2 px-3 text-white text-md rounded-[3px] hover:shadow-lg" -->
                    
-                    <v-btn  color="main"><div class="text-white">Connect</div></v-btn>
+                    <v-btn @click="router.push({name:'Evidence'})"  color="main"><div class="text-white">Connect</div></v-btn>
                 </nav>
 
                 <div class="w-full h-[80%] rounded-[10px] bg-main2 md:min-w-[1200px] flex flex-row items-center px-8 font-sans max-md:py-8 mt-8 ">
@@ -149,3 +149,9 @@
         </footer>
     </div>
 </template>
+
+<script setup>
+ import {useRoute, useRouter} from 'vue-router'
+
+ const router = useRouter();
+</script>

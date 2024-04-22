@@ -1,5 +1,5 @@
 <template>
-    <div @click.stop="" class="w-1/2 min-w-fit h-3/4 bg-gray-50 rounded-lg">
+    <div @click.stop="" class="w-1/2 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 bg-gray-50 rounded-lg mx-auto">
         <div class="w-3/4 h-full mx-auto py-8 p-4 flex flex-col">
             <div class="text-2xl text-gray-800 font-semibold tracking-tighter font-sans">
                 Case Details
@@ -58,7 +58,7 @@
                                 @input="v$.participants.$touch"
                                 ></v-text-field>
                             </div>
-                            <div class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
+                            <div v-if="state.participants[n]" class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
                                 Jane D. Doe <span class="text-gray-600">(Lawyer)</span> 
                             </div>
                         </div>

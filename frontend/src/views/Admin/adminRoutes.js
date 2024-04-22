@@ -1,8 +1,8 @@
 import LayoutView from "./Layout.vue"
-import UsersView from "./Users.vue"
+import UsersView from "./Users/Users.vue"
 import DashboardView from "./Dashboard.vue"
 import CasesView from "./Cases.vue"
-import NotificationsView from "./Notifications.vue";
+import NotificationsView from "./Logs.vue";
 
 export default [
     {
@@ -26,8 +26,8 @@ export default [
                 component: CasesView
             },
             {
-                path:'/admNotification',
-                name:'Admin Notifications',
+                path:'/logs',
+                name:'Logs',
                 component: NotificationsView
             },
         ]

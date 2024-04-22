@@ -192,7 +192,14 @@
                                 </div>
                                </td>
 
-                            <td class="text-gray-600 font-sans">April 17, 2024</td>
+                               <td class="text-gray-600 font-sans">
+                                <div class="flex flex-row items-center space-x-4">
+                                    <div>April 24, 2024</div>
+                                    <button @click="specificEvidenceOverlay = !specificEvidenceOverlay" class="text-main font-bold hover:underline text-sm">
+                                        View
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td class="flex flex-row items-center"> 
@@ -223,7 +230,14 @@
                                 </div>
                                </td>
 
-                            <td class="text-gray-600 font-sans">April 17, 2024</td>
+                               <td class="text-gray-600 font-sans">
+                                    <div class="flex flex-row items-center space-x-4">
+                                        <div>April 24, 2024</div>
+                                        <button @click="specificEvidenceOverlay = !specificEvidenceOverlay" class="text-main font-bold hover:underline text-sm">
+                                            View
+                                        </button>
+                                    </div>
+                                </td>
                         </tr>
                         <tr>
                             <td class="flex flex-row items-center"> 
@@ -252,9 +266,16 @@
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
                                 </div>
-                               </td>
+                            </td>
 
-                            <td class="text-gray-600 font-sans">April 17, 2024</td>
+                            <td class="text-gray-600 font-sans">
+                                <div class="flex flex-row items-center space-x-4">
+                                    <div>April 24, 2024</div>
+                                    <button @click="specificEvidenceOverlay = !specificEvidenceOverlay" class="text-main font-bold hover:underline text-sm">
+                                        View
+                                    </button>
+                                </div>
+                            </td>                        
                         </tr>
                         <tr>
                             <td class="flex flex-row items-center"> 
@@ -285,8 +306,22 @@
                                 </div>
                                </td>
 
-                            <td class="text-gray-600 font-sans">April 17, 2024</td>
+                               <td class="text-gray-600 font-sans">
+                                <div class="flex flex-row items-center space-x-4">
+                                    <div>April 24, 2024</div>
+                                    <button @click="specificEvidenceOverlay = !specificEvidenceOverlay" class="text-main font-bold hover:underline text-sm">
+                                        View
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
+                        <div class="text-center">
+                            <v-overlay v-model="specificEvidenceOverlay">
+                                <div @click="specificEvidenceOverlay = !specificEvidenceOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
+                                    <SpecificEvidenceView @close="specificEvidenceOverlay = !specificEvidenceOverlay"/>
+                                </div>
+                            </v-overlay>
+                        </div>
                     </tbody>
                 </v-table>
             </div>
@@ -299,9 +334,12 @@
     import {ref} from "vue"
     import NewEvidenceForm from "./NewEvidenceForm.vue";
     import NewCaseForm from "../Cases/NewCaseForm.vue"
+    import SpecificEvidenceView from "./SpecificEvidence.vue"
 
     const evidenceOverlay = ref(false)
     const caseOverlay = ref(false)
+    const specificEvidenceOverlay = ref(false)
+
     const search = ref(null)
     const fileType = ref({
         all:true,

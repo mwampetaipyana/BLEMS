@@ -2,7 +2,17 @@
     <div class="w-full flex flex-col">
             
             <div class="flex flex-row xl:w-[80%] md:w-full justify-between mb-3 ">
-               
+                <div class="w-1/4">
+                    <v-select
+                    v-model="filter"
+                    density="compact"
+                    width="20"
+                    label="Filter"
+                    :items="['All', 'Judges', 'Law enforcement', 'Lawyers', 'Forensics']"
+                    variant="outlined"
+                    ></v-select>
+                </div>
+                
                 <div class="w-1/4">
                     <v-text-field
                         density="compact"
@@ -27,13 +37,14 @@
                     <thead>
                         <tr>
                             <th  style="background-color: #ebebeb;" class="text-left w-1/3">
-                                <span class="text-md text-gray-600 font-bold">Case</span>
+                                <span class="text-md text-gray-600 font-bold">Name</span>
                             </th>
                             <th  style="background-color: #ebebeb;" class="text-left w-1/3">
-                                <span class="text-md text-gray-600 font-bold">Added By</span>
+                                <span class="text-md text-gray-600 font-bold">Address</span>
                             </th>
-                            <th  style="background-color: #ebebeb;" class="text-left w-1/3">
-                                <span class="text-md text-gray-600 font-bold">Last&nbsp;modified</span>
+                            <th  style="background-color: #ebebeb;" class="text-left w-full flex flex-row items-center justify-between space-x-4">
+                                <span class="text-md text-gray-600 font-bold">Position</span>
+                                <v-btn @click="newUserOverlay = !newUserOverlay"  color="main"><div class="text-white">Add user</div></v-btn>
                             </th>
                         </tr>
                     </thead>
@@ -42,13 +53,12 @@
                             <td class="flex flex-row items-center h-full"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
-                                        gavel
+                                        person
                                     </span>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">Case 01223e</div>
+                                    <div class="font-bold text-gray-800"> Julie J. Doe</div>
                                     <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
-                                        <div>Mr.Pablo against the United Republic of Tanzania</div>
                                     </div>
                                 </div> 
                             </td>
@@ -58,9 +68,6 @@
 
                                     </div>
                                     <div class="flex flex-col">
-                                        <div class="font-bold text-gray-800">
-                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
-                                        </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
                                 </div>
@@ -68,10 +75,9 @@
 
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
-                                    <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
+                                        <div class="font-bold text-gray-800">
+                                            <span class="text-gray-600">&nbsp;Judge</span> 
+                                        </div>
                                 </div>
                             </td>
                         </tr>
@@ -79,14 +85,12 @@
                             <td class="flex flex-row items-center"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
-                                        gavel
+                                        person
                                     </span>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">Case 01223e</div>
-                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
-                                        <div>Mr.Pablo against Mr.Escobar</div>
-                                    </div>
+                                    <div class="font-bold text-gray-800"> Julie J. Doe</div>
+                                   
                                 </div> 
                             </td>
                             <td class="text-gray-600">
@@ -95,9 +99,6 @@
 
                                     </div>
                                     <div class="flex flex-col">
-                                        <div class="font-bold text-gray-800">
-                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
-                                        </div>
                                         <div class="font-sans font-medium max-md:truncate text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
                                 </div>
@@ -105,10 +106,9 @@
 
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
-                                    <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
+                                        <div class="font-bold text-gray-800">
+                                            <span class="text-gray-600">&nbsp;Judge</span> 
+                                        </div>
                                 </div>
                             </td>
                         </tr>
@@ -116,14 +116,11 @@
                             <td class="flex flex-row items-center"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
-                                        gavel
+                                        person
                                     </span>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">Case 01223e</div>
-                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
-                                        <div>Mr.Pablo against Mr.Escobar</div>
-                                    </div>
+                                    <div class="font-bold text-gray-800"> Julie J. Doe</div>   
                                 </div> 
                             </td>
                             <td class="text-gray-600">
@@ -132,9 +129,6 @@
 
                                     </div>
                                     <div class="flex flex-col">
-                                        <div class="font-bold text-gray-800">
-                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
-                                        </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
                                 </div>
@@ -142,10 +136,9 @@
 
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
-                                    <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
+                                        <div class="font-bold text-gray-800">
+                                            <span class="text-gray-600">&nbsp;Judge</span> 
+                                        </div>
                                 </div>
                             </td>
                         </tr>
@@ -153,14 +146,12 @@
                             <td class="flex flex-row items-center"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
-                                        gavel
+                                        person
                                     </span>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">Case 01223e</div>
-                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
-                                        <div>The United Republic of Tanzania against Mr.Pablo</div>
-                                    </div>
+                                    <div class="font-bold text-gray-800"> Julie J. Doe</div>
+                                  
                                 </div> 
                             </td>
                             <td class="text-gray-600">
@@ -169,9 +160,6 @@
 
                                     </div>
                                     <div class="flex flex-col">
-                                        <div class="font-bold text-gray-800">
-                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
-                                        </div>
                                         <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                     </div>
                                 </div>
@@ -179,17 +167,16 @@
 
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
-                                    <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
+                                        <div class="font-bold text-gray-800">
+                                            <span class="text-gray-600">&nbsp;Judge</span> 
+                                        </div>
                                 </div>
                             </td>
                         </tr>
                         <div class="text-center">
-                            <v-overlay v-model="specificCaseOverlay">
-                                <div @click="specificCaseOverlay = !specificCaseOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
-                                    <SpecificCaseView @close="specificCaseOverlay = !specificCaseOverlay"/>
+                            <v-overlay v-model="newUserOverlay">
+                                <div @click="newUserOverlay = !newUserOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
+                                    <NewUserView @close="newUserOverlay = !newUserOverlay"/>
                                 </div>
                             </v-overlay>
                         </div>
@@ -198,3 +185,13 @@
             </div>
         </div>    
 </template>
+
+
+<script setup>
+ import {ref} from "vue"
+ import NewUserView from "./NewUser.vue"
+ const filter = ref('All');
+ const newUserOverlay = ref(false);
+
+
+</script>

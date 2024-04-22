@@ -91,17 +91,17 @@
                 </router-link>
 
                 <router-link 
-                :to="{ name: 'Admin Notifications' }"
+                :to="{ name: 'Logs' }"
                 v-motion
                 :initial="{ x: 60 }"
                 :enter="{ x: 0, transition: { duration: 1000 } }"
-                :class="{ 'bg-[#51751d] bg-opacity-10 text-gray-900':useRoute().name==='Admin Notifications'}" 
+                :class="{ 'bg-[#51751d] bg-opacity-10 text-gray-900':useRoute().name==='Logs'}" 
                 class="py-1 flex flex-row px-2 space-x-4 border-[1px] border-transparent hover:border-[#51751d] text-gray-600  border-b-gray-200  mx-3 rounded-md transition-opacity duration-300 ease-in">
                
                 <span class="material-symbols-outlined">
-                        notifications
+                    contract
                 </span>
-                <span :class="{'opacity-0':!sidebarExpanded}" class="text-md font-semibold mt-auto" >Notifications</span>
+                <span :class="{'opacity-0':!sidebarExpanded}" class="text-md font-semibold mt-auto" >Logs</span>
 
                 </router-link>
 
