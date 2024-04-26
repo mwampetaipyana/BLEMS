@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT 
+
 pragma solidity ^0.8.9; 
 contract Blems{
 
@@ -114,9 +115,4 @@ contract Blems{
         ) public view returns (string memory) {
         return userMapping[add].position;
         }
-
-    // function logout() external  {
-    //     loggedInUser = address(0);
-    // }
-
 }
