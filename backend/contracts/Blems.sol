@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: MIT 
-
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9; 
-contract Blems{
+contract Legal{
 
     address public i_owner;
 
@@ -40,6 +39,22 @@ contract Blems{
         i_owner = msg.sender;
         userMapping[i_owner].position = "admin";
 
+    }
+
+    function addUser(
+        string memory _name,
+        address _useraddress,
+        string memory _position
+    ) public {
+        User memory newuser = User ({
+            name: _name,
+            userAddress : _useraddress,
+            position : _position
+        });
+        
+         userArray.push(newuser);
+         // Update userMapping for each user
+         userMapping[newuser.userAddress] = newuser;
     }
 
     function addNewCase (
@@ -81,6 +96,9 @@ contract Blems{
          caseMapping[_caseNumber].push(newEvidence);
     }
 
+    function getUsers() public view returns (User[] memory){
+        return userArray;
+    }
     function getmyCase(
         address _useraddress 
         )external view returns (Case[] memory) {
@@ -115,4 +133,9 @@ contract Blems{
         ) public view returns (string memory) {
         return userMapping[add].position;
         }
+
+    // function logout() external  {
+    //     loggedInUser = address(0);
+    // }
+
 }
