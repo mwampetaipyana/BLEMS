@@ -105,3 +105,22 @@
     </div>
 
 </template>
+
+
+<script setup>
+ import {ref, onMounted} from "vue"
+ import { getSignerContract } from "@/utils/contractService";
+
+ const users = ref(null)
+
+ const getCount =async ()=>{
+    const {contract} = await getSignerContract();
+    users.value = await contract.countUsersByPosition()
+    console.log(users.value);
+ }
+
+ onMounted(()=>{
+    getCount();
+ })
+
+</script>

@@ -7,20 +7,20 @@ import { notifyError, notifySuccess } from "./notificationService";
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
 export const getProvider = () => {
-    return new ethers.BrowserProvider(window.ethereum);
+    return new ethers.providers.Web3Provider(window.ethereum) ;
 }
 
 export const getSignerContract = async () => {
-    let provider = await getProvider()
+    let provider = getProvider()
     await provider.send('eth_requestAccounts', [])
-    const signer = await provider.getSigner();
+    const signer = provider.getSigner();
     const contract = new ethers.Contract(contractAddress, abi, signer);
     return { signer, contract }
 }
 
 export const getViewerContract = async () => {
-    //const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
-    let provider = await getProvider()
+    const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
+    //let provider = getProvider()
     const contract = new ethers.Contract(contractAddress, abi, provider);
     return {  contract }
 }
@@ -48,14 +48,20 @@ export const resetState = (state)=> {
 
 
 export const login = async ()=> {
-    const { signer } = await getSignerContract()
+    
+    if(!window.ethereum.isMetaMask){
+        notifyError('Install metamask!')
+        return
+    }
     const {contract} = await getViewerContract()
+    const { signer } = await getSignerContract()
         
     const signerAddress = await signer.getAddress();
+    console.log(signerAddress);
     const userType = await contract.Login(signerAddress)
        
        if(userType === null)
-        return
+        return 
 
        if(userType === "admin"){
         setState('signer',signerAddress);

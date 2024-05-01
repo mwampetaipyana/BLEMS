@@ -136,12 +136,19 @@
 <script setup>
     import {ref,onMounted, computed} from 'vue'
     import {useRoute, useRouter} from 'vue-router'
-    import { logout } from '@/utils/contractService';
-    
+    import { logout,login } from '@/utils/contractService';
+
     const router = useRouter();
     const showLogoutModal = ref(false)
     const sidebarExpanded = ref(true)
     const profile = ref({})
+
+    const handleAccountsChanged = async()=>{
+        logout();
+        await login();
+    }
+
+    window.ethereum.on("accountsChanged", handleAccountsChanged);
 
     onMounted(async () =>{
         

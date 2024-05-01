@@ -28,7 +28,7 @@
                 
                     v-model="state.position"
                     label="Position"
-                    :items="['Judge', 'Law enforcement', 'Lawyer', 'Forensic']"
+                    :items="['Judge', 'Law enforcement', 'Lawyer', 'Forensic','Prosecutor']"
                     :error-messages="v$.position.$errors.map(e => e.$message)"
                     required
                     @blur="v$.position.$touch"
@@ -49,11 +49,11 @@
                     </v-btn>
 
                     <v-btn
+                        @click="registerUser()"
                         class="text-none"
                         color="main"
                         min-width="92"
                         rounded
-                        
                     >
                         <div class="font-sans">Submit</div>
                     </v-btn>
@@ -67,6 +67,7 @@
     import { ref } from 'vue'
     import { useVuelidate } from '@vuelidate/core'
     import { required} from '@vuelidate/validators'
+    import { getSignerContract } from '@/utils/contractService';
 
     const search = ref('')
 
@@ -79,8 +80,6 @@
     const state = ref({
         ...userDetails,
     })
-
-   
 
     const rules = {
         name: { required },
@@ -102,6 +101,16 @@
 
     const close = ()=>{
         emit('close')
+    }
+
+    const registerUser = async()=>{
+        console.log(state.value.name);
+        console.log(state.value.address);
+        console.log(state.value.position);
+
+        const {contract} = await getSignerContract()
+        await contract.addUser(state.value.name, state.value.address, state.value.position);
+        close()
     }
 
 </script>

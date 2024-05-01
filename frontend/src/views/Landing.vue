@@ -2,9 +2,14 @@
     <div class="h-screen flex space-y-3 flex-col px-8 py-2 transition-all duration-300 ease-in" >
         <div class="flex flex-col min-h-[500px] md:h-[45vh] py-4 ">
                 <nav class=" w-full md:h-16 max-md:h-10 flex items-center  justify-between py-2">
-                    <div class="font-mono text-main leading-1 tracking-wider font-[560] text-4xl">
-                        BLEMS
+                    <div class="flex flex-row space-x-3">
+                        <img class="w-16 h-16" src="../assets/images/Coat_of_arms_of_Tanzania.svg" alt="">
+
+                        <div class="font-mono text-main leading-1 tracking-wider font-[560] text-4xl my-auto">
+                            BLEMS
+                        </div>
                     </div>
+                    
 
                     <!-- class="bg-main font-sans py-2 px-3 text-white text-md rounded-[3px] hover:shadow-lg" -->
                    
@@ -14,8 +19,8 @@
                 <div class="w-full h-[80%] rounded-[10px] bg-main2 md:min-w-[1200px] flex flex-row items-center px-8 font-sans max-md:py-8 mt-8 ">
                     <div class="md:w-1/2 w-full flex flex-col justify-center h-full">
                         <div class="lg:text-[28px] xl:text-[45px] text-2xl gap-3 leading-tight flex  justify-left font-[500] tracking-tighter ">
-                            This is the app of your life mates,&nbsp;Welcome. <br>
-                            Enjoy&nbsp;the&nbsp;many&nbsp;benefits of the&nbsp;Blockchain&nbsp;technology.
+                            Securely manage evidence <br> with blockchain<br>
+                            Building&nbsp;trust&nbsp;in&nbsp;justice.
                         </div>
                        
                     </div>

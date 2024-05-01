@@ -1,21 +1,7 @@
 <template>
     <div class="w-full h-full flex-col overflow-y-auto">
         <div class="w-full flex flex-row">
-            <div @click="evidenceOverlay = !evidenceOverlay" class="relative flex h-fit flex-row space-x-4 items-center w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
-                <div class="absolute top-1 right-1 text-gray-400">
-                    <span class="material-symbols-outlined text-[19px]">
-                        add
-                    </span>
-                </div>
-                <div class="bg-gray-700 rounded text-gray-300 h-10 w-10 flex items-center justify-center">
-                    <span class="material-symbols-outlined">
-                        description
-                    </span>
-                </div>
-                <div class="font-semibold text-gray-700  text-[14px]"> 
-                    New evidence
-                </div>
-            </div>
+           
             <div class="text-center">
                 <v-overlay v-model="evidenceOverlay">
                     <div  class="w-screen h-screen p-2 flex items-center justify-center">
