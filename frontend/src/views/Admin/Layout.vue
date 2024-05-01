@@ -136,7 +136,8 @@
 <script setup>
     import {ref,onMounted, computed} from 'vue'
     import {useRoute, useRouter} from 'vue-router'
-
+    import { logout } from '@/utils/contractService';
+    
     const router = useRouter();
     const showLogoutModal = ref(false)
     const sidebarExpanded = ref(true)

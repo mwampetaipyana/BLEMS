@@ -9,6 +9,7 @@ export default [
         path:'/adm',
         name:'Adminlayout',
         component:LayoutView,
+        meta: { requiresMetaMask: true },
         children:[
             {
                 path:'',
