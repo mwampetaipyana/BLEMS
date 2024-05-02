@@ -16,7 +16,7 @@
                     </div>
                 </v-overlay>
             </div>
-            <div @click="caseOverlay = !caseOverlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+            <div @click="evidenceOverlay = !evidenceOverlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
                         add
@@ -24,11 +24,11 @@
                 </div>
                 <div class="bg-gray-700 rounded text-gray-300 h-10 w-10 flex items-center justify-center">
                     <span class="material-symbols-outlined">
-                        inventory_2
+                        description
                     </span>
                 </div>
                 <div class="font-semibold text-gray-700  text-[14px]"> 
-                     New case
+                     New evidence
                 </div>
             </div>
         </div>
