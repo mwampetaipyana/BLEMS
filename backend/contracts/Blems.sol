@@ -26,19 +26,77 @@ contract Blems{
         address[] participants;
     }
 
+    struct Transaction {
+        string transactionType;
+        address userAddress;
+        uint256 timestamp;
+        string status;
+    }
+
     User[] public userArray;
     Evidence[] public evidenceArray;
     Case[] public  caseArray;
+    Transaction[] public  transactionsArray;
 
     mapping (address => User) userMapping;
     mapping (address => Case[]) user_CaseMapping;
     mapping (string => Evidence[]) caseMapping;
 
 
+
     constructor() {
         i_owner = msg.sender;
         userMapping[i_owner].position = "admin";
 
+    }
+
+     // Event to log new transactions
+    event NewTransaction(
+        string transactionType,
+        address userAddress,
+        uint256 timestamp,
+        string status
+    );
+
+    //Event to log new Case
+    event CaseAdded(
+        string caseNo,
+        string casedescription,
+        uint256 no_participants,
+        address[] participants
+    );
+
+    // Event to log evidence addition
+    event EvidenceAdded(
+        uint256 itemNo,
+        string caseNo,
+        string description,
+        string evidence_cid,
+        address uploader,
+        uint256 timestamp
+    );
+
+    // Event to log evidence download
+    event EvidenceDownloaded(
+        string ipfs_hash,
+        address downloader,
+        uint256 timestamp
+    );
+
+    // Function to add a new transaction
+    function addTransaction(
+        string memory _transactionType,
+        address _userAddress,
+        string memory _status
+    ) internal {
+        Transaction memory newTransaction = Transaction({
+            transactionType: _transactionType,
+            userAddress: _userAddress,
+            timestamp: block.timestamp,
+            status: _status
+        });
+        transactionsArray.push(newTransaction);
+        emit NewTransaction(_transactionType, _userAddress, block.timestamp, _status);
     }
 
     function addUser(
@@ -75,6 +133,12 @@ contract Blems{
     for (uint256 i = 0; i < _participants.length; i++) {
         user_CaseMapping[_participants[i]].push(newcase);
     }
+
+      // Emit event for evidence addition
+     emit CaseAdded(_caseNo, _caseDescription, _noParticipants, _participants);
+
+     // Add transaction for evidence addition
+     addTransaction("Add New Case", msg.sender, "Success");
     }
 
     function addEvidence (
@@ -94,6 +158,11 @@ contract Blems{
          });
          evidenceArray.push(newEvidence);
          caseMapping[_caseNumber].push(newEvidence);
+          // Emit event for evidence addition
+        emit EvidenceAdded(_itemNo, _caseNumber, _description, _evidenceCID, msg.sender, block.timestamp);
+
+        // Add transaction for evidence addition
+        addTransaction("Add Evidence", msg.sender, "Success");
     }
 
     function getUsers() public view returns (User[] memory){
@@ -109,6 +178,10 @@ contract Blems{
         ) external view returns (Evidence[] memory) {
             return caseMapping[_casenumber];
          }
+
+    function getAllEvidence() public view returns (Evidence[] memory ) {
+        return evidenceArray;
+    }
 
     function countUsersByPosition() public view returns (
         uint256 judgeCount, 
