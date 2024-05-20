@@ -1,14 +1,12 @@
 const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 
 // Define LegalModule
-const LegalModule = buildModule("LegalModule", (m) => {
-    const legal = m.contract("Legal");
-    return { legal };
+const BlemsModule = buildModule("BlemsModule", (m) => {
+    const blems = m.contract("Blems");
+    return { blems };
 });
 
 // Export LegalModule
-module.exports = LegalModule;
-<<<<<<< HEAD
-=======
+module.exports = BlemsModule;
 //0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
->>>>>>> d5fb6b36dfa4f89c41c33bf28fceba8749e2b860
+//contract address 0x5fbdb2315678afecb367f032d93f642f64180aa3
