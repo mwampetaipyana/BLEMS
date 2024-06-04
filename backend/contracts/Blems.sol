@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9; 
-contract Blems{
+contract Legal{
 
     address public i_owner;
 
@@ -33,15 +33,22 @@ contract Blems{
         string status;
     }
 
+    struct Report {
+        string Title;
+        string description;
+        string file_hash;
+    }
+
     User[] public userArray;
     Evidence[] public evidenceArray;
     Case[] public  caseArray;
     Transaction[] public  transactionsArray;
-
-    mapping (address => User) userMapping;
-    mapping (address => Case[]) user_CaseMapping;
-    mapping (string => Evidence[]) caseMapping;
-
+    Report[] public reportsArray;
+    
+    mapping (address => User) public userMapping;
+    mapping (address => Case[]) public user_CaseMapping;
+    mapping (string => Evidence[]) public caseMapping;
+    mapping (string => Report) public caseReportMapping;
 
 
     constructor() {
@@ -128,6 +135,7 @@ contract Blems{
             participants:_participants
             
         });
+        
         caseArray.push(newcase);
          // Update user_CaseMapping for each participant
     for (uint256 i = 0; i < _participants.length; i++) {
@@ -193,7 +201,7 @@ contract Blems{
             judgeCount++;
         } else if (keccak256(abi.encodePacked(userArray[i].position)) == keccak256(abi.encodePacked("forensic"))) {
             forensicCount++;
-        } else if (keccak256(abi.encodePacked(userArray[i].position)) == keccak256(abi.encodePacked("law enforcement"))) {
+        } else if (keccak256(abi.encodePacked(userArray[i].position)) == keccak256(abi.encodePacked("police"))) {
             lawEnforcementCount++;
         } else if (keccak256(abi.encodePacked(userArray[i].position)) == keccak256(abi.encodePacked("prosecutor"))) {
             prosecutorCount++;
