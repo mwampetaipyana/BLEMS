@@ -34,9 +34,11 @@ contract Legal{
     }
 
     struct Report {
-        string Title;
+        string title;
+        string caseNumber;
         string description;
         string file_hash;
+        
     }
 
     User[] public userArray;
@@ -48,7 +50,7 @@ contract Legal{
     mapping (address => User) public userMapping;
     mapping (address => Case[]) public user_CaseMapping;
     mapping (string => Evidence[]) public caseMapping;
-    mapping (string => Report) public caseReportMapping;
+    mapping (string => Report[]) public caseReportMapping;
 
 
     constructor() {
@@ -90,21 +92,7 @@ contract Legal{
         uint256 timestamp
     );
 
-    // Function to add a new transaction
-    function addTransaction(
-        string memory _transactionType,
-        address _userAddress,
-        string memory _status
-    ) internal {
-        Transaction memory newTransaction = Transaction({
-            transactionType: _transactionType,
-            userAddress: _userAddress,
-            timestamp: block.timestamp,
-            status: _status
-        });
-        transactionsArray.push(newTransaction);
-        emit NewTransaction(_transactionType, _userAddress, block.timestamp, _status);
-    }
+ 
 
     function addUser(
         string memory _name,
@@ -173,6 +161,27 @@ contract Legal{
         addTransaction("Add Evidence", msg.sender, "Success");
     }
 
+    function uploadReport (
+        string memory _title,
+        string memory _description,
+        string memory _caseNumber,
+        string memory _fileHash
+    ) public {
+        Report memory newReport = Report ({
+            title: _title,
+            caseNumber: _caseNumber,
+            description : _description,
+            file_hash: _fileHash
+        });
+        reportsArray.push(newReport);
+        caseReportMapping[_caseNumber].push(newReport);
+    } 
+
+    function getReport(string memory _caseNumber) public view returns (Report[] memory){
+        return caseReportMapping[_caseNumber];
+
+    }
+
     function getUsers() public view returns (User[] memory){
         return userArray;
     }
@@ -206,7 +215,23 @@ contract Legal{
         } else if (keccak256(abi.encodePacked(userArray[i].position)) == keccak256(abi.encodePacked("prosecutor"))) {
             prosecutorCount++;
         }
+    } 
     }
+
+       // Function to add a new transaction
+    function addTransaction(
+        string memory _transactionType,
+        address _userAddress,
+        string memory _status
+    ) internal {
+        Transaction memory newTransaction = Transaction({
+            transactionType: _transactionType,
+            userAddress: _userAddress,
+            timestamp: block.timestamp,
+            status: _status
+        });
+        transactionsArray.push(newTransaction);
+        emit NewTransaction(_transactionType, _userAddress, block.timestamp, _status);
     }
 
      function Login(
