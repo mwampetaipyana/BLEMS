@@ -28,6 +28,7 @@ contract Legal{
 
     struct Transaction {
         string transactionType;
+        string caseNumber;
         address userAddress;
         uint256 timestamp;
         string status;
@@ -51,7 +52,7 @@ contract Legal{
     mapping (address => Case[]) public user_CaseMapping;
     mapping (string => Evidence[]) public caseMapping;
     mapping (string => Report[]) public caseReportMapping;
-
+    mapping (string => Transaction[]) caseTransactionMapping;
 
     constructor() {
         i_owner = msg.sender;
@@ -91,9 +92,14 @@ contract Legal{
         address downloader,
         uint256 timestamp
     );
-
+    
+    event ReportAdded(
+        string title,
+        string caseNumber,
+        string description,
+        string file_hash
+    );
  
-
     function addUser(
         string memory _name,
         address _useraddress,
@@ -124,7 +130,18 @@ contract Legal{
             
         });
         
+        Transaction memory txnobj = Transaction ({
+            transactionType: "Add new Case",
+            caseNumber : _caseNo,
+            userAddress: msg.sender,
+            timestamp: block.timestamp,
+            status: "Success"
+
+        });
+
+        caseTransactionMapping[_caseNo].push(txnobj);
         caseArray.push(newcase);
+        
          // Update user_CaseMapping for each participant
     for (uint256 i = 0; i < _participants.length; i++) {
         user_CaseMapping[_participants[i]].push(newcase);
@@ -134,7 +151,7 @@ contract Legal{
      emit CaseAdded(_caseNo, _caseDescription, _noParticipants, _participants);
 
      // Add transaction for evidence addition
-     addTransaction("Add New Case", msg.sender, "Success");
+     addTransaction("Add New Case",  _caseNo, msg.sender, "Success");
     }
 
     function addEvidence (
@@ -152,13 +169,26 @@ contract Legal{
              collection_location : _location_Collection,
              evidenceCID : _evidenceCID
          });
+
+
+        Transaction memory txnobj = Transaction ({
+            transactionType: "Add  Case Evidence",
+            caseNumber : _caseNumber,
+            userAddress: msg.sender,
+            timestamp: block.timestamp,
+            status: "Success"
+
+        });
+
+        caseTransactionMapping[_caseNumber].push(txnobj);
          evidenceArray.push(newEvidence);
+         
          caseMapping[_caseNumber].push(newEvidence);
           // Emit event for evidence addition
         emit EvidenceAdded(_itemNo, _caseNumber, _description, _evidenceCID, msg.sender, block.timestamp);
 
         // Add transaction for evidence addition
-        addTransaction("Add Evidence", msg.sender, "Success");
+        addTransaction("Add Evidence",  _caseNumber, msg.sender, "Success");
     }
 
     function uploadReport (
@@ -173,8 +203,22 @@ contract Legal{
             description : _description,
             file_hash: _fileHash
         });
+
+        Transaction memory txnobj = Transaction ({
+            transactionType: "Add  Case Report",
+            caseNumber : _caseNumber,
+            userAddress: msg.sender, 
+            timestamp: block.timestamp,
+            status: "Success"
+
+        });
+
+        caseTransactionMapping[_caseNumber].push(txnobj);
         reportsArray.push(newReport);
         caseReportMapping[_caseNumber].push(newReport);
+
+        emit ReportAdded(_title, _caseNumber, _description, _fileHash);
+        addTransaction("Upload Report", _caseNumber, msg.sender, "Success");
     } 
 
     function getReport(string memory _caseNumber) public view returns (Report[] memory){
@@ -190,6 +234,7 @@ contract Legal{
         )external view returns (Case[] memory) {
             return user_CaseMapping[_useraddress];
          }
+
     function getEvidence(
         string memory _casenumber
         ) external view returns (Evidence[] memory) {
@@ -198,6 +243,10 @@ contract Legal{
 
     function getAllEvidence() public view returns (Evidence[] memory ) {
         return evidenceArray;
+    }
+
+    function getCaseTxns( string memory _caseNumber) public view returns(Transaction[] memory) {
+            return caseTransactionMapping[_caseNumber];
     }
 
     function countUsersByPosition() public view returns (
@@ -221,11 +270,13 @@ contract Legal{
        // Function to add a new transaction
     function addTransaction(
         string memory _transactionType,
+        string memory _caseNumber,
         address _userAddress,
         string memory _status
     ) internal {
         Transaction memory newTransaction = Transaction({
             transactionType: _transactionType,
+            caseNumber: _caseNumber,
             userAddress: _userAddress,
             timestamp: block.timestamp,
             status: _status
