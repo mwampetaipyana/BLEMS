@@ -2,7 +2,7 @@ const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 
 // Define LegalModule
 const LegalModule = buildModule("LegalModule", (m) => {
-    const legal = m.contract("Legal");
+    const legal = m.contract("Blems");
     return { legal };
 });
 
