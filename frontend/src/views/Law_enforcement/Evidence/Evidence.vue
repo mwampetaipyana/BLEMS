@@ -9,14 +9,8 @@
                     </div>
                 </v-overlay>
             </div>
-            <div class="text-center">
-                <v-overlay v-model="caseOverlay">
-                    <div  class="w-screen h-screen p-2 flex items-center justify-center">
-                        <NewCaseForm @close="caseOverlay = !caseOverlay"/>
-                    </div>
-                </v-overlay>
-            </div>
-            <div @click="evidenceOverlay = !evidenceOverlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+
+            <div v-if="role == 'Law enforcement'" @click="evidenceOverlay = !evidenceOverlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
                         add
@@ -317,13 +311,18 @@
 </template>
 
 <script setup>
-    import {ref} from "vue"
+    import {onMounted, ref} from "vue"
     import NewEvidenceForm from "./NewEvidenceForm.vue";
-    import NewCaseForm from "../Cases/NewCaseForm.vue"
     import SpecificEvidenceView from "./SpecificEvidence.vue"
+    import { getState } from "@/utils/contractService";
+
+    const role = ref('')
+
+    onMounted(()=>{
+        role.value = getState('role') 
+    })
 
     const evidenceOverlay = ref(false)
-    const caseOverlay = ref(false)
     const specificEvidenceOverlay = ref(false)
 
     const search = ref(null)

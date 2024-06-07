@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9; 
-contract Blems{
+contract Legal{
 
     address public i_owner;
 
@@ -26,13 +26,31 @@ contract Blems{
         address[] participants;
     }
 
+    struct Transaction {
+        string transactionType;
+        address userAddress;
+        uint256 timestamp;
+        string status;
+    }
+
+    struct Report {
+        string title;
+        string caseNumber;
+        string description;
+        string file_hash;
+        
+    }
+
     User[] public userArray;
     Evidence[] public evidenceArray;
     Case[] public  caseArray;
-
-    mapping (address => User) userMapping;
-    mapping (address => Case[]) user_CaseMapping;
-    mapping (string => Evidence[]) caseMapping;
+    Transaction[] public  transactionsArray;
+    Report[] public reportsArray;
+    
+    mapping (address => User) public userMapping;
+    mapping (address => Case[]) public user_CaseMapping;
+    mapping (string => Evidence[]) public caseMapping;
+    mapping (string => Report[]) public caseReportMapping;
 
 
     constructor() {
@@ -40,6 +58,41 @@ contract Blems{
         userMapping[i_owner].position = "admin";
 
     }
+
+     // Event to log new transactions
+    event NewTransaction(
+        string transactionType,
+        address userAddress,
+        uint256 timestamp,
+        string status
+    );
+
+    //Event to log new Case
+    event CaseAdded(
+        string caseNo,
+        string casedescription,
+        uint256 no_participants,
+        address[] participants
+    );
+
+    // Event to log evidence addition
+    event EvidenceAdded(
+        uint256 itemNo,
+        string caseNo,
+        string description,
+        string evidence_cid,
+        address uploader,
+        uint256 timestamp
+    );
+
+    // Event to log evidence download
+    event EvidenceDownloaded(
+        string ipfs_hash,
+        address downloader,
+        uint256 timestamp
+    );
+
+ 
 
     function addUser(
         string memory _name,
@@ -70,11 +123,18 @@ contract Blems{
             participants:_participants
             
         });
+        
         caseArray.push(newcase);
          // Update user_CaseMapping for each participant
     for (uint256 i = 0; i < _participants.length; i++) {
         user_CaseMapping[_participants[i]].push(newcase);
     }
+
+      // Emit event for evidence addition
+     emit CaseAdded(_caseNo, _caseDescription, _noParticipants, _participants);
+
+     // Add transaction for evidence addition
+     addTransaction("Add New Case", msg.sender, "Success");
     }
 
     function addEvidence (
@@ -94,6 +154,32 @@ contract Blems{
          });
          evidenceArray.push(newEvidence);
          caseMapping[_caseNumber].push(newEvidence);
+          // Emit event for evidence addition
+        emit EvidenceAdded(_itemNo, _caseNumber, _description, _evidenceCID, msg.sender, block.timestamp);
+
+        // Add transaction for evidence addition
+        addTransaction("Add Evidence", msg.sender, "Success");
+    }
+
+    function uploadReport (
+        string memory _title,
+        string memory _description,
+        string memory _caseNumber,
+        string memory _fileHash
+    ) public {
+        Report memory newReport = Report ({
+            title: _title,
+            caseNumber: _caseNumber,
+            description : _description,
+            file_hash: _fileHash
+        });
+        reportsArray.push(newReport);
+        caseReportMapping[_caseNumber].push(newReport);
+    } 
+
+    function getReport(string memory _caseNumber) public view returns (Report[] memory){
+        return caseReportMapping[_caseNumber];
+
     }
 
     function getUsers() public view returns (User[] memory){
@@ -110,6 +196,10 @@ contract Blems{
             return caseMapping[_casenumber];
          }
 
+    function getAllEvidence() public view returns (Evidence[] memory ) {
+        return evidenceArray;
+    }
+
     function countUsersByPosition() public view returns (
         uint256 judgeCount, 
         uint256 forensicCount, 
@@ -120,12 +210,28 @@ contract Blems{
             judgeCount++;
         } else if (keccak256(abi.encodePacked(userArray[i].position)) == keccak256(abi.encodePacked("forensic"))) {
             forensicCount++;
-        } else if (keccak256(abi.encodePacked(userArray[i].position)) == keccak256(abi.encodePacked("law enforcement"))) {
+        } else if (keccak256(abi.encodePacked(userArray[i].position)) == keccak256(abi.encodePacked("police"))) {
             lawEnforcementCount++;
         } else if (keccak256(abi.encodePacked(userArray[i].position)) == keccak256(abi.encodePacked("prosecutor"))) {
             prosecutorCount++;
         }
+    } 
     }
+
+       // Function to add a new transaction
+    function addTransaction(
+        string memory _transactionType,
+        address _userAddress,
+        string memory _status
+    ) internal {
+        Transaction memory newTransaction = Transaction({
+            transactionType: _transactionType,
+            userAddress: _userAddress,
+            timestamp: block.timestamp,
+            status: _status
+        });
+        transactionsArray.push(newTransaction);
+        emit NewTransaction(_transactionType, _userAddress, block.timestamp, _status);
     }
 
      function Login(

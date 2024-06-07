@@ -136,14 +136,32 @@
 <script setup>
     import {ref,onMounted, computed} from 'vue'
     import {useRoute, useRouter} from 'vue-router'
+    import { logout,login } from '@/utils/contractService';
+    import { getSignerContract } from '@/utils/contractService';
 
     const router = useRouter();
     const showLogoutModal = ref(false)
     const sidebarExpanded = ref(true)
     const profile = ref({})
 
+    const handleAccountsChanged = async()=>{
+        logout();
+        await login();
+    }
+
+    window.ethereum.on("accountsChanged", handleAccountsChanged);
+
+    const cases = ref([]);
+
+    const getMyCases = async ()=>{
+        const {signer,contract} = await getSignerContract()
+        cases.value = await contract.getmyCase(signer.getAddress());
+        console.log(await contract.getmyCase(signer.getAddress()));
+    }
+
+
     onMounted(async () =>{
-        
+        await getMyCases();
      })
 
 </script>

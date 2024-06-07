@@ -32,8 +32,7 @@
                                <div class="text-lg text-gray-700 font-semibold tracking-tighter font-sans">
                                     Attached Reports
                                </div>
-                               <v-btn  color="main"><div class="text-white">Add</div></v-btn>
-
+                               <v-btn v-if="role == 'Forensic'"  color="main"><div class="text-white">Add</div></v-btn>
                            </th>
                   
                        </tr>
@@ -77,3 +76,15 @@
        </div>
     </div>       
 </template>
+
+<script setup>
+import {ref, onMounted} from "vue" 
+import { getState } from "@/utils/contractService";
+
+const role = ref('')
+
+onMounted(()=>{
+    role.value = getState('role') 
+})
+
+</script>

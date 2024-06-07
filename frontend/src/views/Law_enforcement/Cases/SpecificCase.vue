@@ -26,7 +26,7 @@
                                 <div class="text-lg text-gray-700 font-semibold tracking-tighter font-sans">
                                     Legal Participants
                                 </div>
-                                <v-btn  color="main"><div class="text-white">Add</div></v-btn>
+                                <v-btn v-if="role == 'Prosecutor'" color="main"><div class="text-white">Add</div></v-btn>
 
                             </th>
                    
@@ -58,7 +58,7 @@
                                 <div class="text-lg text-gray-700 font-semibold tracking-tighter font-sans">
                                     Applied Evidences
                                 </div>
-                                <v-btn  color="main"><div class="text-white">Add</div></v-btn>
+                                <v-btn v-if="role == 'Law enforcement'"  color="main"><div class="text-white">Add</div></v-btn>
 
                             </th>
                    
@@ -105,3 +105,15 @@
         </div>
      </div>       
 </template>
+
+<script setup>
+import {ref, onMounted} from "vue" 
+import { getState } from "@/utils/contractService";
+
+const role = ref('')
+
+onMounted(()=>{
+    role.value = getState('role') 
+})
+
+</script>

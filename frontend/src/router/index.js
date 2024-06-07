@@ -21,16 +21,15 @@ const router=createRouter({
     routes
 })
 
+/*
 router.beforeEach((to,from, next) => {
-     //to and from are both route objects. must call `next`.
     if(to.meta.requiresMetaMask && !getState('signer')){
-        //if it requires auth and theres no token
         next('/');
         notifyError("You are not Connected")
         return;
     }
   
     next()
-})
+})*/
 
 export default router

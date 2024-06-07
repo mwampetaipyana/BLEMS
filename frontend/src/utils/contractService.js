@@ -4,10 +4,10 @@ import router from "@/router";
 import { notifyError, notifySuccess } from "./notificationService";
 
 //CONTRACT AND WALLET RELATED
-const contractAddress = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
 export const getProvider = () => {
-    return new ethers.providers.Web3Provider(window.ethereum) ;
+    return new ethers.providers.Web3Provider(window.ethereum);
 }
 
 export const getSignerContract = async () => {
@@ -57,22 +57,21 @@ export const login = async ()=> {
     const { signer } = await getSignerContract()
         
     const signerAddress = await signer.getAddress();
-    console.log(signerAddress);
     const userType = await contract.Login(signerAddress)
-       
+       console.log(userType);
        if(userType === null)
         return 
 
        if(userType === "admin"){
         setState('signer',signerAddress);
+        setState('role',"admin");
         router.push("/adm")
        }
-
-       else if(userType === "user"){
+       else if(userType === "Judge" || userType === "Forensic" || userType === "Prosecutor" || userType === "Law enforcement" || userType === "User"){
         setState('signer',signerAddress);
-        LoggedIn.value = getState()
+        setState('role',userType);
+        router.push("/law_enforcement")
        }
-
        else {
         notifyError("Unauthorized User");
         return 

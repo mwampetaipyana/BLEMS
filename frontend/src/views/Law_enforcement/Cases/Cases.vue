@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-full flex-col overflow-y-auto">
         <div class="w-full flex flex-row">
-            <div @click="caseOverlay = !caseOverlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+            <div v-if="role == 'Prosecutor'" @click="caseOverlay = !caseOverlay" class="relative flex h-fit flex-row space-x-4 items-center cursor-pointer mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
                         add
@@ -21,13 +21,6 @@
                 <v-overlay v-model="caseOverlay">
                     <div @click="caseOverlay = !caseOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
                         <NewCaseForm @close="caseOverlay = !caseOverlay"/>
-                    </div>
-                </v-overlay>
-            </div>
-            <div class="text-center">
-                <v-overlay v-model="evidenceOverlay">
-                    <div @click="evidenceOverlay = !evidenceOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
-                        <newEvidenceForm @close="evidenceOverlay = !evidenceOverlay"/>
                     </div>
                 </v-overlay>
             </div>
@@ -308,12 +301,16 @@
 </template>
 
 <script setup>
-    import {ref} from "vue"
+    import {ref, onMounted} from "vue"
     import NewCaseForm from "./NewCaseForm.vue";
-    import NewEvidenceForm from "../Evidence/NewEvidenceForm.vue"
     import SpecificCaseView from "../Cases/SpecificCase.vue"
+    import { getState } from "@/utils/contractService";
 
-    const evidenceOverlay = ref(false)
+    const role = ref('')
+
+    onMounted(()=>{
+        role.value = getState('role') 
+    })
     const caseOverlay = ref(false)
     const specificCaseOverlay = ref(false)
     const search = ref(null)

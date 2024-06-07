@@ -50,7 +50,7 @@
                         <div  v-for="n in Number(state.noOFPersons)" :key="n" class="w-full px-4 flex space-x-4 ">
                             <div  class="w-1/2">
                                 <v-text-field
-                                v-model="state.participants[n]"
+                                v-model="state.participants[n-1]"
                                 :error-messages="v$.participants.$errors.map(e => e.$message)"
                                 label="Participant Address"
                                 required
@@ -84,7 +84,7 @@
                         color="main"
                         min-width="92"
                         rounded
-                        
+                        @click="addNewCase()"
                     >
                         <div class="font-sans">Submit</div>
                     </v-btn>
@@ -98,6 +98,7 @@
     import { ref } from 'vue'
     import { useVuelidate } from '@vuelidate/core'
     import { integer, required } from '@vuelidate/validators'
+    import { getSignerContract } from '@/utils/contractService';
 
     const initialState = {
         caseNo: '',
@@ -140,5 +141,17 @@
     const close = ()=>{
         emit('close')
     }
-
+/*
+    string memory _caseNo,
+        string memory _caseDescription,
+        uint256 _noParticipants,
+        address[] memory _participants
+*/ 
+    const addNewCase = async()=>{
+        const {contract} = await getSignerContract()
+        console.log(state.value.participants[0]);
+        await contract.addNewCase(state.value.caseNo, state.value.description, state.value.noOFPersons, state.value.participants);
+        close()
+    }
+   
 </script>
