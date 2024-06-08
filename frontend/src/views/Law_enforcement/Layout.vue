@@ -156,7 +156,7 @@
     const getMyCases = async ()=>{
         const {signer,contract} = await getSignerContract()
         cases.value = await contract.getmyCase(signer.getAddress());
-        console.log(await contract.getmyCase(signer.getAddress()));
+        console.log(cases.value);
     }
 
 
