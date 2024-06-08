@@ -13,6 +13,7 @@ contract Legal{
     struct Evidence {
         uint256 item_Number;
         string case_number;
+        uint256 dateCollected;
         address collector;
         string evidence_description;
         string collection_location;
@@ -22,6 +23,8 @@ contract Legal{
     struct Case {
         string case_no;
         string case_description;
+        address addedBy;
+        uint256 dateAdded;
         uint256 no_participants;
         address[] participants;
     }
@@ -125,6 +128,8 @@ contract Legal{
         Case  memory newcase = Case({
             case_no: _caseNo,
             case_description: _caseDescription,
+            addedBy: msg.sender,
+            dateAdded: block.timestamp,
             no_participants: _noParticipants,
             participants:_participants
             
@@ -164,6 +169,7 @@ contract Legal{
         Evidence memory newEvidence = Evidence({
              item_Number : _itemNo,
              case_number : _caseNumber,
+             dateCollected: block.timestamp,
              collector : msg.sender,
              evidence_description : _description,
              collection_location : _location_Collection,
@@ -181,8 +187,7 @@ contract Legal{
         });
 
         caseTransactionMapping[_caseNumber].push(txnobj);
-         evidenceArray.push(newEvidence);
-         
+        evidenceArray.push(newEvidence);
          caseMapping[_caseNumber].push(newEvidence);
           // Emit event for evidence addition
         emit EvidenceAdded(_itemNo, _caseNumber, _description, _evidenceCID, msg.sender, block.timestamp);
@@ -221,7 +226,10 @@ contract Legal{
         addTransaction("Upload Report", _caseNumber, msg.sender, "Success");
     } 
 
-    function getReport(string memory _caseNumber) public view returns (Report[] memory){
+    function getReport(
+        string memory _caseNumber)
+        public view returns (
+            Report[] memory) {
         return caseReportMapping[_caseNumber];
 
     }
@@ -241,12 +249,17 @@ contract Legal{
             return caseMapping[_casenumber];
          }
 
-    function getAllEvidence() public view returns (Evidence[] memory ) {
+    function getAllEvidence() 
+    public view returns
+     (Evidence[] memory ) {
         return evidenceArray;
     }
 
-    function getCaseTxns( string memory _caseNumber) public view returns(Transaction[] memory) {
-            return caseTransactionMapping[_caseNumber];
+    function getCaseTxns( 
+        string memory _caseNumber
+        ) public view returns
+    (Transaction[] memory) {
+        return caseTransactionMapping[_caseNumber];
     }
 
     function countUsersByPosition() public view returns (
@@ -267,6 +280,7 @@ contract Legal{
     } 
     }
 
+
        // Function to add a new transaction
     function addTransaction(
         string memory _transactionType,
@@ -285,14 +299,10 @@ contract Legal{
         emit NewTransaction(_transactionType, _userAddress, block.timestamp, _status);
     }
 
-     function Login(
-        address add
-        ) public view returns (string memory) {
-        return userMapping[add].position;
-        }
-
-    // function logout() external  {
-    //     loggedInUser = address(0);
-    // }
+   
+    function login(address add) public view returns (string memory, string memory) {
+        User memory user = userMapping[add];
+        return (user.name, user.position);
+    }
 
 }
