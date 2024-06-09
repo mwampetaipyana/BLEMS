@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9; 
-contract Legal{
+contract Blems{
 
     address public i_owner;
 

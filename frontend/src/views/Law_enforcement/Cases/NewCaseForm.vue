@@ -56,10 +56,14 @@
                                 required
                                 @blur="v$.participants.$touch"
                                 @input="v$.participants.$touch"
+                                @change="getParticipantDetails(n-1)"
                                 ></v-text-field>
                             </div>
-                            <div v-if="state.participants[n]" class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
-                                Jane D. Doe <span class="text-gray-600">(Lawyer)</span> 
+                            <div v-if="addedParticipants[n-1] " class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
+                                {{addedParticipants[n-1][0]}} <span class="text-gray-600">({{addedParticipants[n-1][1]}})</span> 
+                            </div>
+                            <div v-if="state.participants[n-1] && !addedParticipants[n-1]" class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
+                                 <span class="text-gray-600">USER DOES NOT EXIST</span> 
                             </div>
                         </div>
                     </div>
@@ -80,6 +84,7 @@
                     </v-btn>
 
                     <v-btn
+                        :disabled="!validated"
                         class="text-none"
                         color="main"
                         min-width="92"
@@ -95,10 +100,25 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue'
+    import { ref,computed } from 'vue'
     import { useVuelidate } from '@vuelidate/core'
     import { integer, required } from '@vuelidate/validators'
     import { getSignerContract } from '@/utils/contractService';
+
+    const addedParticipants = ref([])
+    const validated = ref(true)
+
+    const getParticipantDetails = async(updatedIndex)=>{
+        const {contract} = await getSignerContract()
+        try{
+            addedParticipants.value[updatedIndex] = await contract.login(state.value.participants[updatedIndex])
+        }
+        catch(err){
+            console.log(err);
+            addedParticipants.value[updatedIndex]=null
+            validated.value = false
+        }
+    }
 
     const initialState = {
         caseNo: '',
@@ -148,9 +168,10 @@
         address[] memory _participants
 */ 
     const addNewCase = async()=>{
-        const {contract} = await getSignerContract()
+        const {contract,signer} = await getSignerContract()
         console.log(state.value.participants[0]);
-        await contract.addNewCase(state.value.caseNo, state.value.description, state.value.noOFPersons, state.value.participants);
+        const allParticipants = state.value.participants 
+        await contract.addNewCase(state.value.caseNo, state.value.description, state.value.noOFPersons, allParticipants.push(signer.getAddress()));
         close()
     }
    

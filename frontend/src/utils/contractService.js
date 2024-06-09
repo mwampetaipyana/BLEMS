@@ -1,10 +1,10 @@
 import { ethers } from "ethers";
-import {abi} from "../contract/Legal.json"
+import {abi} from "../contract/Blems.json"
 import router from "@/router";
 import { notifyError, notifySuccess } from "./notificationService";
 
 //CONTRACT AND WALLET RELATED
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
 
 export const getProvider = () => {
     return new ethers.providers.Web3Provider(window.ethereum);
@@ -57,19 +57,19 @@ export const login = async ()=> {
     const { signer } = await getSignerContract()
         
     const signerAddress = await signer.getAddress();
-    const userType = await contract.Login(signerAddress)
+    const userType = await contract.login(signerAddress)
        console.log(userType);
        if(userType === null)
         return 
 
-       if(userType === "admin"){
+       if(userType[1] === "admin"){
         setState('signer',signerAddress);
         setState('role',"admin");
         router.push("/adm")
        }
-       else if(userType === "Judge" || userType === "Forensic" || userType === "Prosecutor" || userType === "Law enforcement" || userType === "User"){
+       else if(userType[1] === "Judge" || userType[1] === "Forensic" || userType[1] === "Prosecutor" || userType[1] === "Law enforcement" || userType[1] === "User"){
         setState('signer',signerAddress);
-        setState('role',userType);
+        setState('role',userType[1]);
         router.push("/law_enforcement")
        }
        else {
@@ -83,3 +83,12 @@ export const login = async ()=> {
          notifySuccess("Please disconnect from the wallet manually.");
     }
 
+    export const getDate = (timestampInBigNumber)=>{
+        const timestampInSeconds = ethers.BigNumber.from(timestampInBigNumber).toString();
+        const timestampInMs = parseFloat(timestampInSeconds) * 1000;
+        const date = new Date(timestampInMs);
+        const month = date.toLocaleString('en-US', { month: 'short' }); // Get short month name
+        const day = date.getDate().toString().padStart(2, '0'); // Pad day with leading zero
+        const year = date.getFullYear();
+        return `${month} ${day}, ${year}`;
+    }

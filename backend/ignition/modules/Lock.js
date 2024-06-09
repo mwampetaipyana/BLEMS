@@ -13,13 +13,17 @@ module.exports = buildModule("LockModule", (m) => {
 
   return { lock };
 });*/
-
 const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 
-const TokenModule = buildModule("TokenModule", (m) => {
-  const token = m.contract("Blems");
-
-  return { token };
+// Define LegalModule
+const BlemsModule = buildModule("BlemsModule", (m) => {
+    const blems = m.contract("Blems");
+    return { blems };
 });
 
-module.exports = TokenModule;
+// Export LegalModule
+module.exports = BlemsModule;
+//contract address 0x5fbdb2315678afecb367f032d93f642f64180aa3
+
+
+

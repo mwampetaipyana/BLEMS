@@ -15,6 +15,7 @@
                 ></v-text-field>
 
                 <v-text-field
+                :disabled="case_no"
                 v-model="state.caseNo"
                 :error-messages="v$.caseNo.$errors.map(e => e.$message)"
                 label="Case number"
@@ -70,7 +71,7 @@
                         rounded
                         @click="close()"
                     >
-                        Close
+                        {{ case_no ? 'back' :'close' }}
                     </v-btn>
 
                     <v-btn
@@ -90,9 +91,12 @@
 
 
 <script setup>
-    import { ref } from 'vue'
+    import { ref,onMounted } from 'vue'
     import { useVuelidate } from '@vuelidate/core'
     import { email, required } from '@vuelidate/validators'
+
+    const {case_no} = defineProps(['case_no'])
+
 
     const initialState = {
         itemNo: '',
@@ -105,6 +109,12 @@
 
     const state = ref({
         ...initialState,
+    })
+
+    onMounted(()=>{
+        if(case_no){
+            state.value.caseNo = case_no;
+        }
     })
 
     const items = [
@@ -138,6 +148,7 @@
     const close = ()=>{
         emit('close')
     }
+
 
 </script>
 

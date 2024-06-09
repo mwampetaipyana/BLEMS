@@ -1,17 +1,17 @@
 <template>
-     <div @click.stop="" class="w-1/2 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 bg-gray-50 rounded-lg mx-auto">
+     <div v-if="!evidenceOverlay" @click.stop="" class="w-1/2 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 bg-gray-50 rounded-lg mx-auto">
         <div class="w-3/4 h-full mx-auto py-8 p-4 flex flex-col">
             <div class="text-2xl text-gray-700 font-semibold tracking-tighter font-sans">
-                Case 01253d
+                Case&nbsp;{{oneCase.case_no}}
             </div>
             <div class="flex flex-row space-x-1">
                 <!-- <div class="font-bold text-gray-700 font-sans tracking-tight ">Case 01253d</div> -->
                 <div class="flex flex-row space-x-2 text-sm font-[550] text-gray-600">
-                    <div>Mr.Pablo against Mr.Escobar,</div>
+                    <div>{{oneCase.case_description}},</div>
                 </div>
                 
                 <div class="flex flex-row space-x-2 text-sm font-[550] text-main">
-                    <div>added by Judge, Jane J. Doe</div>
+                    <div>added by {{AddedBy[0]}}, {{AddedBy[1]}}</div>
                 </div>
             </div> 
             <v-table
@@ -34,13 +34,13 @@
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>
-                                <div class="flex flex-row max-md:flex-col text-sm mt-1">
+                        <tr v-for="(participant,index) in oneCase.participants" :key="index">
+                            <td >
+                                <div class="flex flex-row md:justify-between max-md:flex-col text-sm mt-1">
                                     <div class="font-bold text-gray-800">
-                                        Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)&nbsp;</span> 
+                                       {{(legalParticipants.length>0)?legalParticipants[index][0]:''}}<span class="text-gray-600">&nbsp;({{(legalParticipants.length>0)?legalParticipants[index][1]:''}})&nbsp;</span> 
                                     </div>
-                                    <div class="font-sans font-medium text-ellipsis text-main">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
+                                    <div class="font-sans font-medium text-ellipsis text-main">{{ participant }}</div>
                                 </div>
                             </td>
                         </tr>
@@ -58,7 +58,7 @@
                                 <div class="text-lg text-gray-700 font-semibold tracking-tighter font-sans">
                                     Applied Evidences
                                 </div>
-                                <v-btn v-if="role == 'Law enforcement'"  color="main"><div class="text-white">Add</div></v-btn>
+                                <v-btn @click="evidenceOverlay=!evidenceOverlay" v-if="role == 'Law enforcement'"  color="main"><div class="text-white">Add</div></v-btn>
 
                             </th>
                    
@@ -103,17 +103,41 @@
          
            
         </div>
-     </div>       
+     </div> 
+     <NewEvidenceFormView v-if="evidenceOverlay" :case_no="oneCase.case_no" @close="evidenceOverlay=!evidenceOverlay"/>      
 </template>
 
 <script setup>
 import {ref, onMounted} from "vue" 
-import { getState } from "@/utils/contractService";
+import { getState,getSignerContract } from "@/utils/contractService";
+import NewEvidenceFormView from "../Evidence/NewEvidenceForm.vue";
 
 const role = ref('')
+const {oneCase} = defineProps(['oneCase'])
+const legalParticipants = ref([])
+const AddedBy = ref([])
+const evidences = ref([])
+
+const evidenceOverlay = ref(false)
 
 onMounted(()=>{
     role.value = getState('role') 
+    getUserDetails()
+    getEvidences()
+    console.log(oneCase);
 })
+
+const getUserDetails = async ()=>{
+    const {contract} = await getSignerContract()
+    oneCase.participants.forEach(async (participant,index) => legalParticipants.value[index] =  await contract.login(participant))
+    AddedBy.value = await contract.login(oneCase.addedBy)
+}
+
+
+const getEvidences = async ()=>{
+    const {contract} = await getSignerContract()
+    evidences.value = await contract.getEvidence(oneCase.case_no)
+    console.log(evidences.value);
+}
 
 </script>

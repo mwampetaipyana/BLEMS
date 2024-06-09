@@ -1,6 +1,7 @@
 <template>
     <div class="w-full h-full flex-col overflow-y-auto">
         <div class="w-full flex flex-row">
+
             <div v-if="role == 'Prosecutor'" @click="caseOverlay = !caseOverlay" class="relative flex h-fit flex-row space-x-4 items-center cursor-pointer mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
@@ -31,8 +32,8 @@
                 <div class=" text-xl text-gray-800  mb-4 font-semibold tracking-tighter font-sans">
                     Recently Modified
                 </div>
-                <div class="flex flex-row xl:w-[80%] md:w-full justify-between">
-                    <div class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
+                <div  class="flex flex-row xl:w-[80%] md:w-full justify-between">
+                    <div v-for="oneCase in recentlyAddedCases" :key="oneCase.case_no" class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
                         <div class="absolute top-1 right-1 text-gray-400">
                             <span class="material-symbols-outlined">
                                 more_vert
@@ -44,51 +45,15 @@
                             </span>
                         </div>
                         <div>
-                            <div class="font-bold text-gray-700 font-sans tracking-tight ">Case 01253d</div>
+                            <div class="font-bold text-gray-700 font-sans tracking-tight ">{{oneCase.case_no}}</div>
                             <div class="flex flex-row space-x-2 text-sm font-[550] text-gray-600">
-                                <div>Mr.Pablo against Mr.Escobar</div>
+                                <div>{{oneCase.case_description}}</div>
                                 
                             </div>
                         </div> 
                     </div>
-                    <div class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
-                        <div class="absolute top-1 right-1 text-gray-400">
-                            <span class="material-symbols-outlined">
-                                more_vert
-                            </span>
-                        </div>
-                        <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center ">
-                            <span class="material-symbols-outlined">
-                                gavel
-                            </span>
-                        </div>
-                        <div>
-                            <div class="font-bold text-gray-700 font-sans tracking-tight ">Case 01253d</div>
-                            <div class="flex flex-row space-x-2 text-sm font-[550] text-gray-600">
-                                <div>Mr.Pablo against Mr.Escobar</div>
-                                
-                            </div>
-                        </div> 
-                    </div>
-                    <div class="relative w-[30%] min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
-                        <div class="absolute top-1 right-1 text-gray-400">
-                            <span class="material-symbols-outlined">
-                                more_vert
-                            </span>
-                        </div>
-                        <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center ">
-                            <span class="material-symbols-outlined">
-                                gavel
-                            </span>
-                        </div>
-                        <div>
-                            <div class="font-bold text-gray-700 font-sans tracking-tight ">Case 01153e</div>
-                            <div class="flex flex-row space-x-2 text-sm font-[550] text-gray-600">
-                                <div>Mr.Pablo against Mr.Escobar</div>
-                                
-                            </div>
-                        </div> 
-                    </div>
+                
+            
 
                 </div>
 
@@ -136,8 +101,8 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="h-fit">
+                    <tbody >
+                        <tr v-for="(oneCase,index) in cases" :key="oneCase.case_no" class="h-fit">
                             <td class="flex flex-row items-center h-full"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
@@ -145,9 +110,9 @@
                                     </span>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-gray-800">Case 01223e</div>
+                                    <div class="font-bold text-gray-800">{{ oneCase.case_no }}</div>
                                     <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
-                                        <div>Mr.Pablo against the United Republic of Tanzania</div>
+                                        <div>{{oneCase.case_description}}</div>
                                     </div>
                                 </div> 
                             </td>
@@ -158,137 +123,29 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="font-bold text-gray-800">
-                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
+                                            {{  (userDetails.length>0)?userDetails[index][0]:'' }}<span class="text-gray-600">&nbsp;({{ (userDetails.length>0)?userDetails[index][1]:'' }})</span> 
                                         </div>
-                                        <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
+                                        <div class="font-sans font-medium text-ellipsis text-gray-600">{{ oneCase.addedBy }}</div>
                                     </div>
                                 </div>
                             </td>
 
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
-                                    <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
+                                    <div>{{ getDate(oneCase.dateAdded) }}</div>
+                                    <button @click="viewCase(oneCase)" class="text-main font-bold hover:underline text-sm">
                                         View
                                     </button>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="flex flex-row items-center"> 
-                                <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
-                                    <span class="material-symbols-outlined">
-                                        gavel
-                                    </span>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-gray-800">Case 01223e</div>
-                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
-                                        <div>Mr.Pablo against Mr.Escobar</div>
-                                    </div>
-                                </div> 
-                            </td>
-                            <td class="text-gray-600">
-                                <div class="flex flex-row">
-                                    <div class="">
-
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <div class="font-bold text-gray-800">
-                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
-                                        </div>
-                                        <div class="font-sans font-medium max-md:truncate text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
-                                    </div>
-                                </div>
-                               </td>
-
-                            <td class="text-gray-600 font-sans">
-                                <div class="flex flex-row items-center space-x-4">
-                                    <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="flex flex-row items-center"> 
-                                <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
-                                    <span class="material-symbols-outlined">
-                                        gavel
-                                    </span>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-gray-800">Case 01223e</div>
-                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
-                                        <div>Mr.Pablo against Mr.Escobar</div>
-                                    </div>
-                                </div> 
-                            </td>
-                            <td class="text-gray-600">
-                                <div class="flex flex-row">
-                                    <div class="">
-
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <div class="font-bold text-gray-800">
-                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
-                                        </div>
-                                        <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
-                                    </div>
-                                </div>
-                               </td>
-
-                            <td class="text-gray-600 font-sans">
-                                <div class="flex flex-row items-center space-x-4">
-                                    <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="flex flex-row items-center"> 
-                                <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
-                                    <span class="material-symbols-outlined">
-                                        gavel
-                                    </span>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-gray-800">Case 01223e</div>
-                                    <div class="flex flex-col space-x-2 font-sans font-medium text-gray-600">
-                                        <div>The United Republic of Tanzania against Mr.Pablo</div>
-                                    </div>
-                                </div> 
-                            </td>
-                            <td class="text-gray-600">
-                                <div class="flex flex-row">
-                                    <div class="">
-
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <div class="font-bold text-gray-800">
-                                            Julie J. Doe<span class="text-gray-600">&nbsp;(Judge)</span> 
-                                        </div>
-                                        <div class="font-sans font-medium text-ellipsis text-gray-600">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
-                                    </div>
-                                </div>
-                               </td>
-
-                            <td class="text-gray-600 font-sans">
-                                <div class="flex flex-row items-center space-x-4">
-                                    <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                     
+        
+                       
                         <div class="text-center">
                             <v-overlay v-model="specificCaseOverlay">
                                 <div @click="specificCaseOverlay = !specificCaseOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
-                                    <SpecificCaseView @close="specificCaseOverlay = !specificCaseOverlay"/>
+                                    <SpecificCaseView :oneCase="viewedCase" @close="specificCaseOverlay = !specificCaseOverlay"/>
                                 </div>
                             </v-overlay>
                         </div>
@@ -304,13 +161,47 @@
     import {ref, onMounted} from "vue"
     import NewCaseForm from "./NewCaseForm.vue";
     import SpecificCaseView from "../Cases/SpecificCase.vue"
-    import { getState } from "@/utils/contractService";
+    import { getState, getSignerContract, getDate } from "@/utils/contractService";
+
 
     const role = ref('')
 
-    onMounted(()=>{
+    const cases = ref([]);
+    const recentlyAddedCases = ref([]) //last three added cases
+
+    //users that have added the cases
+    const userDetails = ref([]);
+
+    const viewedCase = ref([])
+
+    const getMyCases = async ()=>{
+        const {signer,contract} = await getSignerContract()
+        cases.value = await contract.getmyCase(signer.getAddress());
+       console.log(cases.value);
+        const numberOfCases = cases.value.length;
+        console.log(numberOfCases);
+        if(numberOfCases>=3){
+            recentlyAddedCases.value[0]=cases.value[length-1]
+            recentlyAddedCases.value[1]=cases.value[length-2]
+            recentlyAddedCases.value[2]=cases.value[length-3]
+        }
+        else if(numberOfCases>0 && numberOfCases<3){
+            cases.value.forEach((oneCase,index) => recentlyAddedCases.value[index] = oneCase)
+        }
+    }
+
+    const getUserDetails = async ()=>{
+        const {contract} = await getSignerContract()
+        cases.value.forEach(async (oneCase,index) => userDetails.value[index] =  await contract.login(oneCase.addedBy))
+    }
+
+
+    onMounted(async ()=>{
         role.value = getState('role') 
+        await getMyCases();
+        getUserDetails();
     })
+
     const caseOverlay = ref(false)
     const specificCaseOverlay = ref(false)
     const search = ref(null)
@@ -327,5 +218,10 @@
             fileType.value[key] = true;
         }
     };
+
+    const viewCase= (oneCase)=>{
+        viewedCase.value = oneCase;
+        specificCaseOverlay.value = !specificCaseOverlay.value
+    }
 </script>
 
