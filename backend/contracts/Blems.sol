@@ -107,7 +107,7 @@ contract Legal{
         string memory _name,
         address _useraddress,
         string memory _position
-    ) public {
+    ) public ownerOnly {
         User memory newuser = User ({
             name: _name,
             userAddress : _useraddress,
@@ -124,7 +124,11 @@ contract Legal{
         string memory _caseDescription,
         uint256 _noParticipants,
         address[] memory _participants
-    ) public {
+    ) public onlyProsecutor {
+
+        // Check if the case number already exists
+        require(caseTransactionMapping[_caseNo].length == 0, "Case already exists");
+
         Case  memory newcase = Case({
             case_no: _caseNo,
             case_description: _caseDescription,
@@ -165,7 +169,11 @@ contract Legal{
         string memory _description,
         string memory _location_Collection,
         string memory _evidenceCID
-    ) public  {
+    ) public onlyPolice  {
+
+        // Check if the case number exists
+        require(caseTransactionMapping[_caseNumber].length > 0, "Case does not exist");
+
         Evidence memory newEvidence = Evidence({
              item_Number : _itemNo,
              case_number : _caseNumber,
@@ -201,7 +209,11 @@ contract Legal{
         string memory _description,
         string memory _caseNumber,
         string memory _fileHash
-    ) public {
+    ) public onlyForensic{
+
+        // Check if the case number exists
+        require(caseTransactionMapping[_caseNumber].length > 0, "Case does not exist");
+
         Report memory newReport = Report ({
             title: _title,
             caseNumber: _caseNumber,
@@ -303,6 +315,35 @@ contract Legal{
     function login(address add) public view returns (string memory, string memory) {
         User memory user = userMapping[add];
         return (user.name, user.position);
+    }
+
+    modifier ownerOnly() {
+        require(msg.sender == i_owner, "BLEMS Admin account is required");
+        _;
+    }
+
+    modifier onlyPolice() {
+    require(
+        keccak256(abi.encodePacked(userMapping[msg.sender].position)) == keccak256(abi.encodePacked("police")),
+        "Only users with the police role can call this function"
+    );
+    _;
+    }
+
+    modifier onlyForensic() {
+    require(
+        keccak256(abi.encodePacked(userMapping[msg.sender].position)) == keccak256(abi.encodePacked("forensic")),
+        "Only users with the forensic role can call this function"
+    );
+    _;
+    }
+
+    modifier onlyProsecutor() {
+    require(
+        keccak256(abi.encodePacked(userMapping[msg.sender].position)) == keccak256(abi.encodePacked("prosecutor")),
+        "Only users with the prosecutor role can call this function"
+    );
+    _;
     }
 
 }
