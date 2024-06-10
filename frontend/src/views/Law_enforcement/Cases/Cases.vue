@@ -21,7 +21,7 @@
             <div class="text-center">
                 <v-overlay v-model="caseOverlay">
                     <div @click="caseOverlay = !caseOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
-                        <NewCaseForm @close="caseOverlay = !caseOverlay"/>
+                        <NewCaseForm @close="closeModal()"/>
                     </div>
                 </v-overlay>
             </div>
@@ -68,6 +68,7 @@
                
                 <div class="w-1/4">
                     <v-text-field
+                        :disabled="! cases.length > 0"
                         density="compact"
                         class="h-1/2 text-caption font-weight-bold font-sans"
                         width="50%"
@@ -139,10 +140,13 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr v-if="!cases.length > 0">
+                            <td class="flex mx-auto font-sans font-medium text-gray-600 items-center">NO CASES</td>
+                        </tr>
                      
         
                        
-                        <div class="text-center">
+                        <div v-if="specificCaseOverlay" class="text-center">
                             <v-overlay v-model="specificCaseOverlay">
                                 <div @click="specificCaseOverlay = !specificCaseOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
                                     <SpecificCaseView :oneCase="viewedCase" @close="specificCaseOverlay = !specificCaseOverlay"/>
@@ -222,6 +226,13 @@
     const viewCase= (oneCase)=>{
         viewedCase.value = oneCase;
         specificCaseOverlay.value = !specificCaseOverlay.value
+    }
+
+    const closeModal = ()=>{
+        caseOverlay.value = !caseOverlay.value
+        setTimeout(() => {
+            getMyCases();
+        }, 20000);
     }
 </script>
 

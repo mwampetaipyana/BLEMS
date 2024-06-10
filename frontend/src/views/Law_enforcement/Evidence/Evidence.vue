@@ -5,7 +5,7 @@
             <div class="text-center">
                 <v-overlay v-model="evidenceOverlay">
                     <div  class="w-screen h-screen p-2 flex items-center justify-center">
-                        <NewEvidenceForm @close="evidenceOverlay = !evidenceOverlay"/>
+                        <NewEvidenceForm @close="closeModal()"/>
                     </div>
                 </v-overlay>
             </div>
@@ -100,11 +100,10 @@
                  All files
             </div>
             <div class="flex flex-row xl:w-[80%] md:w-full justify-between mb-3 ">
-                <div class="w-[30%] h-fit mt-auto justify-between min-w-fit max-md:space-x-2 border border-gray-200 rounded-md bg-main3 flex flex-row font-bold tracking-tight text-sm px-4 py-[1px] items-center transition-all duration-300 ease-in-out">
+                <div class="w-[24%] h-fit mt-auto justify-between min-w-fit max-md:space-x-2 border border-gray-200 rounded-md bg-main3 flex flex-row font-bold tracking-tight text-sm px-4 py-[1px] items-center transition-all duration-300 ease-in-out">
                     <button @click="filterFiles('all')" :class="{'border bg-gray-50 text-gray-800':fileType.all}" class="text-gray-400 p-1 rounded-md">
                         View all
                     </button>
-                    <button @click="filterFiles('pdf')" :class="{'border bg-gray-50 text-gray-800':fileType.pdf}" class="text-gray-400 p-1 rounded-md">pdf</button>
                     <button @click="filterFiles('images')" :class="{'border bg-gray-50 text-gray-800':fileType.images}" class="text-gray-400 p-1 rounded-md">images</button>
                     <button @click="filterFiles('videos')" :class="{'border bg-gray-50 text-gray-800':fileType.videos}" class="text-gray-400 p-1 rounded-md">videos</button>
                 </div>
@@ -328,15 +327,27 @@
     const search = ref(null)
     const fileType = ref({
         all:true,
-        pdf:false,
         images:false,
         videos:false
     })
+
+    const getEvidences = ()=>{
+        console.log('hahaha');
+    }
+
     const filterFiles = (key) => {
-        fileType.value.all=false; fileType.value.pdf=false; fileType.value.images=false; fileType.value.videos=false; 
+        fileType.value.all=false; fileType.value.images=false; fileType.value.videos=false; 
         if (Object.prototype.hasOwnProperty.call(fileType.value, key)) {
             fileType.value[key] = true;
         }
     };
+    const closeModal = ()=>{
+        evidenceOverlay.value = !evidenceOverlay.value
+        setTimeout(() => {
+            getEvidences();
+        }, 20000);
+    }
+
+    
 </script>
 

@@ -25,15 +25,6 @@
                 ></v-text-field>
 
                 <v-text-field
-                v-model="state.collector"
-                :error-messages="v$.collector.$errors.map(e => e.$message)"
-                label="Collector"
-                required
-                @blur="v$.collector.$touch"
-                @input="v$.collector.$touch"
-                ></v-text-field>
-
-                <v-text-field
                 v-model="state.description"
                 :counter="100"
                 :error-messages="v$.description.$errors.map(e => e.$message)"
@@ -75,6 +66,7 @@
                     </v-btn>
 
                     <v-btn
+                        @click="addEvidence()"
                         class="text-none"
                         color="main"
                         min-width="92"
@@ -94,6 +86,8 @@
     import { ref,onMounted } from 'vue'
     import { useVuelidate } from '@vuelidate/core'
     import { email, required } from '@vuelidate/validators'
+    import {addFile} from '@/utils/IPFS_Service.js'
+    import { getSignerContract } from '@/utils/contractService';
 
     const {case_no} = defineProps(['case_no'])
 
@@ -101,7 +95,6 @@
     const initialState = {
         itemNo: '',
         caseNo: '',
-        collector: '',
         description: '',
         location:'',
         file:null
@@ -149,6 +142,19 @@
         emit('close')
     }
 
+    const addEvidence = async()=> {
+        const {contract} =await getSignerContract();
+        const cid = await addFile(state.value.file[0]);
+        console.log(`this is the cid : ${cid}`);
+        await contract.addEvidence(
+            state.value.itemNo,
+            state.value.caseNo,
+            state.value.description,
+            state.value.location,
+            cid
+        )
+        close();
+    }
 
 </script>
 

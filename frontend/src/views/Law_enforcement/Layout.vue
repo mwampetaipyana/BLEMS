@@ -150,7 +150,5 @@
 
     window.ethereum.on("accountsChanged", handleAccountsChanged);
 
-  
-
 </script>
 
