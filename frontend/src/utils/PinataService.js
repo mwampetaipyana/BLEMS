@@ -10,6 +10,8 @@ export const addFile = async (FileName, FileObject) => {
     })
     formData.append('pinataOptions', pinataOptions);
 
+    console.log(FileName);
+    console.log(FileObject);
     try{
         const pinataUrl = import.meta.env.VITE_APP_PINATA_URL
         const privateKey = import.meta.env.VITE_APP_PINATA_KEY

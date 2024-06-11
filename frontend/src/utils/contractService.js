@@ -67,7 +67,7 @@ export const login = async ()=> {
         setState('role',"admin");
         router.push("/adm")
        }
-       else if(userType[1] === "Judge" || userType[1] === "Forensic" || userType[1] === "Prosecutor" || userType[1] === "Law enforcement" || userType[1] === "User"){
+       else if(userType[1] === "judge" || userType[1] === "forensic" || userType[1] === "prosecutor" || userType[1] === "police" || userType[1] === "user"){
         setState('signer',signerAddress);
         setState('role',userType[1]);
         router.push("/law_enforcement")

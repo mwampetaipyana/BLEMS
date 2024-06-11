@@ -10,7 +10,7 @@
                 </v-overlay>
             </div>
 
-            <div v-if="role == 'Law enforcement'" @click="evidenceOverlay = !evidenceOverlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+            <div v-if="role == 'police'" @click="evidenceOverlay = !evidenceOverlay" class="relative flex h-fit flex-row space-x-4 items-center mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
                         add
@@ -39,7 +39,7 @@
                             </span>
                         </div>
                         <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center ">
-                            <span class="material-symbols-outlined">
+                            <span class="material-sy0x70997970C51812dc3A010C7d01b50e0d17dc79C8mbols-outlined">
                                 photo
                             </span>
                         </div>

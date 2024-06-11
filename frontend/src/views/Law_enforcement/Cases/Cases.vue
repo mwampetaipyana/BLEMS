@@ -2,7 +2,7 @@
     <div class="w-full h-full flex-col overflow-y-auto">
         <div class="w-full flex flex-row">
 
-            <div v-if="role == 'Prosecutor'" @click="caseOverlay = !caseOverlay" class="relative flex h-fit flex-row space-x-4 items-center cursor-pointer mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
+            <div v-if="role == 'prosecutor'" @click="caseOverlay = !caseOverlay" class="relative flex h-fit flex-row space-x-4 items-center cursor-pointer mx-2 w-1/4 p-4 min-w-fit font-sans rounded-md bg-[#ebebeb] hover:bg-opacity-50 shadow-sm hover:shadow-md transition-all duration-100 ease-in ">
                 <div class="absolute top-1 right-1 text-gray-400">
                     <span class="material-symbols-outlined text-[19px]">
                         add

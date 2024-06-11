@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9; 
-contract Blems{
+contract Legal{
 
     address public i_owner;
 
@@ -150,7 +150,7 @@ contract Blems{
 
         caseTransactionMapping[_caseNo].push(txnobj);
         caseArray.push(newcase);
-        
+        user_CaseMapping[msg.sender].push(newcase);
          // Update user_CaseMapping for each participant
     for (uint256 i = 0; i < _participants.length; i++) {
         user_CaseMapping[_participants[i]].push(newcase);
