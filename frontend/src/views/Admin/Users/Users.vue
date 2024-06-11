@@ -8,7 +8,7 @@
                     density="compact"
                     width="20"
                     label="Filter"
-                    :items="['All', 'Judges', 'Law enforcement', 'Lawyers', 'Forensics']"
+                    :items="['All', 'Judge', 'Law enforcement', 'Lawyer', 'Forensic']"
                     variant="outlined"
                     ></v-select>
                 </div>
@@ -49,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="user in users" :key="user.address" class="h-fit">
+                        <tr v-for="user in displayedUsers" :key="user.address" class="h-fit">
                             <td class="flex flex-row items-center h-full"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
@@ -99,18 +99,20 @@
 
 
 <script setup>
- import {ref, onMounted} from "vue"
+ import {ref, onMounted, watch} from "vue"
  import NewUserView from "./NewUser.vue"
  import { getSignerContract } from "@/utils/contractService";
 
 
  const getUsers =async ()=>{
     const {contract} = await getSignerContract();
-    users.value = await contract.getUsers()
-    console.log(users);
- }
+    users.value = await contract.getUsers();
+    displayedUsers.value = users.value;
+}
 
 const users = ref([])
+const displayedUsers = ref([])
+
  onMounted(async()=>{
     getUsers();
  })
@@ -119,6 +121,22 @@ const users = ref([])
  const newUserOverlay = ref(false);
  const search = ref('')
 
+ //filters
+ watch(()=> [search.value,filter.value], ()=>{
+        displayedUsers.value = users.value.filter(user =>{
+            if(search.value && filter.value!='All'){
+                return  user.name.toLowerCase().includes(search.value.toLowerCase()) && user.position.includes(filter.value)
+            }
+            else if(filter.value!='All'){
+                return user.position.includes(filter.value)
+            }
+            else if(search.value){
+                return  user.name.toLowerCase().includes(search.value.toLowerCase())
+            }
+
+            else return true;
+        });
+})
 
 const closeModal = ()=>{
     newUserOverlay.value = !newUserOverlay.value

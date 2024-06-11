@@ -4,7 +4,6 @@ import { create } from 'ipfs-http-client';
 const ipfs = create('/ip4/127.0.0.1/tcp/5001');
 
 
-
 // Function to add metadata to IPFS
 export const addFile =async (file) => {
     try {

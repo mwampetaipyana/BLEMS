@@ -21,7 +21,7 @@ const router=createRouter({
     routes
 })
 
-/*
+
 router.beforeEach((to,from, next) => {
     if(to.meta.requiresMetaMask && !getState('signer')){
         next('/');
@@ -30,6 +30,6 @@ router.beforeEach((to,from, next) => {
     }
   
     next()
-})*/
+})
 
 export default router

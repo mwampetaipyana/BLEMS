@@ -86,7 +86,7 @@
     import { ref,onMounted } from 'vue'
     import { useVuelidate } from '@vuelidate/core'
     import { email, required } from '@vuelidate/validators'
-    import {addFile} from '@/utils/IPFS_Service.js'
+    import {addFile} from '@/utils/PinataService.js'
     import { getSignerContract } from '@/utils/contractService';
 
     const {case_no} = defineProps(['case_no'])
@@ -144,7 +144,7 @@
 
     const addEvidence = async()=> {
         const {contract} =await getSignerContract();
-        const cid = await addFile(state.value.file[0]);
+        const cid = await addFile(state.value.itemNo,state.value.file[0]);
         console.log(`this is the cid : ${cid}`);
         await contract.addEvidence(
             state.value.itemNo,

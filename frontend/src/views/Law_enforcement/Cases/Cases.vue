@@ -103,7 +103,7 @@
                         </tr>
                     </thead>
                     <tbody >
-                        <tr v-for="(oneCase,index) in cases" :key="oneCase.case_no" class="h-fit">
+                        <tr v-for="(oneCase,index) in displayedCases" :key="oneCase.case_no" class="h-fit">
                             <td class="flex flex-row items-center h-full"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
@@ -134,9 +134,9 @@
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
                                     <div>{{ getDate(oneCase.dateAdded) }}</div>
-                                    <button @click="viewCase(oneCase)" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
+                                    <div class="text-main" title="view">
+                                        <v-btn @click="viewCase(oneCase)" density="comfortable" variant="text" icon="mdi-eye" size="medium"></v-btn>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -162,7 +162,7 @@
 </template>
 
 <script setup>
-    import {ref, onMounted} from "vue"
+    import {ref, onMounted, watch} from "vue"
     import NewCaseForm from "./NewCaseForm.vue";
     import SpecificCaseView from "../Cases/SpecificCase.vue"
     import { getState, getSignerContract, getDate } from "@/utils/contractService";
@@ -171,6 +171,7 @@
     const role = ref('')
 
     const cases = ref([]);
+    const displayedCases = ref([])
     const recentlyAddedCases = ref([]) //last three added cases
 
     //users that have added the cases
@@ -181,9 +182,8 @@
     const getMyCases = async ()=>{
         const {signer,contract} = await getSignerContract()
         cases.value = await contract.getmyCase(signer.getAddress());
-       console.log(cases.value);
+        displayedCases.value = cases.value
         const numberOfCases = cases.value.length;
-        console.log(numberOfCases);
         if(numberOfCases>=3){
             recentlyAddedCases.value[0]=cases.value[length-1]
             recentlyAddedCases.value[1]=cases.value[length-2]
@@ -208,7 +208,17 @@
 
     const caseOverlay = ref(false)
     const specificCaseOverlay = ref(false)
+
     const search = ref(null)
+
+    watch(search, ()=>{
+        displayedCases.value = cases.value.filter(oneCase =>{
+            if(search.value){
+                return  oneCase.case_no.toLowerCase().includes(search.value.toLowerCase())
+            }
+            else return oneCase;
+        });
+    })
 
     const fileType = ref({
         all:true,
@@ -216,6 +226,7 @@
         images:false,
         videos:false
     })
+
     const filterFiles = (key) => {
         fileType.value.all=false; fileType.value.pdf=false; fileType.value.images=false; fileType.value.videos=false; 
         if (Object.prototype.hasOwnProperty.call(fileType.value, key)) {
