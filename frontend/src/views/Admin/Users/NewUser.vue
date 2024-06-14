@@ -28,7 +28,7 @@
                 
                     v-model="state.position"
                     label="Position"
-                    :items="['Judge', 'Law enforcement', 'Lawyer', 'Forensic','Prosecutor']"
+                    :items="['judge', 'police', 'lawyer', 'forensic','prosecutor']"
                     :error-messages="v$.position.$errors.map(e => e.$message)"
                     required
                     @blur="v$.position.$touch"

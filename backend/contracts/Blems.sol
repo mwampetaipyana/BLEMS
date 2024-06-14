@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9; 
-contract Blems{
+contract Legal{
 
     address public i_owner;
 
@@ -71,37 +71,30 @@ contract Blems{
         string status
     );
 
-    //Event to log new Case
-    event CaseAdded(
-        string caseNo,
-        string casedescription,
-        uint256 no_participants,
-        address[] participants
-    );
+    // //Event to log new Case
+    // event CaseAdded(
+    //     string caseNo,
+    //     string casedescription,
+    //     uint256 no_participants,
+    //     address[] participants
+    // );
 
-    // Event to log evidence addition
-    event EvidenceAdded(
-        uint256 itemNo,
-        string caseNo,
-        string description,
-        string evidence_cid,
-        address uploader,
-        uint256 timestamp
-    );
-
-    // Event to log evidence download
-    event EvidenceDownloaded(
-        string ipfs_hash,
-        address downloader,
-        uint256 timestamp
-    );
+    // // Event to log evidence addition
+    // event EvidenceAdded(
+    //     uint256 itemNo,
+    //     string caseNo,
+    //     string description,
+    //     string evidence_cid,
+    //     address uploader,
+    //     uint256 timestamp
+    // );
     
-    event ReportAdded(
-        string title,
-        string caseNumber,
-        string description,
-        string file_hash
-    );
+    // event ReportAdded(
+    //     string title,
+    //     string caseNumber,
+    //     string description,
+    //     string file_hash
+    // );
  
     function addUser(
         string memory _name,
@@ -150,14 +143,14 @@ contract Blems{
 
         caseTransactionMapping[_caseNo].push(txnobj);
         caseArray.push(newcase);
-        
+        user_CaseMapping[msg.sender].push(newcase);
          // Update user_CaseMapping for each participant
     for (uint256 i = 0; i < _participants.length; i++) {
         user_CaseMapping[_participants[i]].push(newcase);
     }
 
       // Emit event for evidence addition
-     emit CaseAdded(_caseNo, _caseDescription, _noParticipants, _participants);
+    //  emit CaseAdded(_caseNo, _caseDescription, _noParticipants, _participants);
 
      // Add transaction for evidence addition
      addTransaction("Add New Case",  _caseNo, msg.sender, "Success");
@@ -198,7 +191,7 @@ contract Blems{
         evidenceArray.push(newEvidence);
          caseMapping[_caseNumber].push(newEvidence);
           // Emit event for evidence addition
-        emit EvidenceAdded(_itemNo, _caseNumber, _description, _evidenceCID, msg.sender, block.timestamp);
+        // emit EvidenceAdded(_itemNo, _caseNumber, _description, _evidenceCID, msg.sender, block.timestamp);
 
         // Add transaction for evidence addition
         addTransaction("Add Evidence",  _caseNumber, msg.sender, "Success");
@@ -234,7 +227,7 @@ contract Blems{
         reportsArray.push(newReport);
         caseReportMapping[_caseNumber].push(newReport);
 
-        emit ReportAdded(_title, _caseNumber, _description, _fileHash);
+        // emit ReportAdded(_title, _caseNumber, _description, _fileHash);
         addTransaction("Upload Report", _caseNumber, msg.sender, "Success");
     } 
 
@@ -272,6 +265,10 @@ contract Blems{
         ) public view returns
     (Transaction[] memory) {
         return caseTransactionMapping[_caseNumber];
+    }
+
+    function getSystemTxns() public view returns (Transaction[] memory){
+        return transactionsArray;
     }
 
     function countUsersByPosition() public view returns (

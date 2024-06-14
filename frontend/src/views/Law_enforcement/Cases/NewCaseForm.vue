@@ -171,7 +171,7 @@
         const {contract,signer} = await getSignerContract()
         console.log(state.value.participants[0]);
         const allParticipants = state.value.participants 
-        await contract.addNewCase(state.value.caseNo, state.value.description, state.value.noOFPersons, allParticipants.push(signer.getAddress()));
+        await contract.addNewCase(state.value.caseNo, state.value.description, state.value.noOFPersons, allParticipants);
         close()
     }
    
