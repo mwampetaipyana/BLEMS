@@ -1,5 +1,5 @@
 <template>
-     <div v-if="!newEvidenceOverlay && !oneEvidenceOverlay && !newReportOverlay" @click.stop="" class="w-1/2 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 bg-gray-50 rounded-lg mx-auto">
+     <div v-if="!newEvidenceOverlay && !oneEvidenceOverlay && !newReportOverlay && !oneReportOverlay" @click.stop="" class="w-1/2 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 bg-gray-50 rounded-lg mx-auto">
         <div class="w-3/4 h-full mx-auto py-8 p-4 flex flex-col">
             <div class="text-2xl text-gray-700 font-semibold tracking-tighter font-sans">
                 Case&nbsp;{{oneCase.case_no}}
@@ -115,7 +115,7 @@
                                <div class="text-lg text-gray-700 font-semibold tracking-tighter font-sans">
                                     Attached Reports
                                </div>
-                               <v-btn @click="newReportOverlay=!newReportOverlay" v-if="role == 'Forensic'"  color="main"><div class="text-white">Add</div></v-btn>
+                               <v-btn @click="newReportOverlay=!newReportOverlay" v-if="role == 'forensic'"  color="main"><div class="text-white">Add</div></v-btn>
                            </th>
                   
                        </tr>
@@ -145,7 +145,7 @@
                                        <div class="font-sans font-medium text-ellipsis text-main">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
                                    </div>
                                    <div class="text-blue-600" title="view">
-                                        <v-btn class="text-blue-600" density="comfortable" variant="text" icon="mdi-eye" size="small"></v-btn>
+                                        <v-btn @click="viewReport(report)" class="text-blue-600" density="comfortable" variant="text" icon="mdi-eye" size="small"></v-btn>
                                    </div>
                                </div>
                            </td>
@@ -160,6 +160,7 @@
      <NewEvidenceFormView v-if="newEvidenceOverlay" :case_no="oneCase.case_no" @close="closeModals()"/>
      <SpecificEvidenceView v-if="oneEvidenceOverlay" :one-evidence="viewedEvidence"  @close="oneEvidenceOverlay=!oneEvidenceOverlay"/>      
      <NewReportView v-if="newReportOverlay" :case_no="oneCase.case_no" @close="closeModals()" /> 
+     <SpecificReportView v-if="oneReportOverlay" :one-report="viewedReport"  @close="oneEvidenceOverlay=!oneEvidenceOverlay"/>      
 </template>
 
 <script setup>
@@ -168,6 +169,7 @@ import { getState,getSignerContract } from "@/utils/contractService";
 import NewEvidenceFormView from "../Evidence/NewEvidenceForm.vue";
 import SpecificEvidenceView from "../Evidence/SpecificEvidence.vue";
 import NewReportView from "../ForensicReports/NewReportForm.vue"
+import SpecificReportView from "../ForensicReports/SpecificReport.vue";
 
 const role = ref('')
 const {oneCase} = defineProps(['oneCase'])
@@ -180,8 +182,10 @@ const reports = ref([])
 const newEvidenceOverlay = ref(false)
 const oneEvidenceOverlay = ref(false)
 const newReportOverlay = ref(false)
+const oneReportOverlay = ref(false)
 
 const viewedEvidence = ref([])
+const viewedReport = ref([])
 
 onMounted(()=>{
     role.value = getState('role') 
@@ -210,6 +214,11 @@ const getEvidences = async ()=>{
 const viewEvidence = (evidence)=>{
     viewedEvidence.value = evidence
     oneEvidenceOverlay.value = true
+}
+
+const viewReport = (report)=>{
+    viewedReport.value = report
+    oneReportOverlay.value = true
 }
 
 const getReports = async ()=>{

@@ -101,7 +101,7 @@
                 <span class="material-symbols-outlined">
                         notifications
                 </span>
-                <span :class="{'opacity-0':!sidebarExpanded}" class="text-md font-semibold mt-auto" >Notifications</span>
+                <span :class="{'opacity-0':!sidebarExpanded}" class="text-md font-semibold mt-auto" >Case Activity</span>
 
                 </router-link>
 

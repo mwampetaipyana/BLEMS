@@ -48,15 +48,10 @@
                             <div class="font-bold text-gray-700 font-sans tracking-tight ">{{oneCase.case_no}}</div>
                             <div class="flex flex-row space-x-2 text-sm font-[550] text-gray-600">
                                 <div>{{oneCase.case_description}}</div>
-                                
                             </div>
                         </div> 
                     </div>
-                
-            
-
                 </div>
-
             </div>
         </div>
 
@@ -102,7 +97,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
                         <tr v-for="(oneCase,index) in displayedCases" :key="oneCase.case_no" class="h-fit">
                             <td class="flex flex-row items-center h-full"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">

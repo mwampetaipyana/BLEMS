@@ -46,14 +46,15 @@ const {oneReport} = defineProps(['oneReport'])
 const role = ref('')
 
 onMounted(()=>{
-    role.value = getState('role') 
+    role.value = getState('role')
+    console.log(oneReport);
     getUserDetails();
 })
 
 const addedBy = ref([])
 
 const getFileUrl = ()=>{
-    return import.meta.env.VITE_APP_PINATA_GATEWAY + oneReport.reportCID
+    return import.meta.env.VITE_APP_PINATA_GATEWAY + oneReport.file_hash
 }
 
 const getUserDetails = async ()=>{
