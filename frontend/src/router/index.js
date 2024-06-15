@@ -29,11 +29,16 @@ const router=createRouter({
 
 router.beforeEach((to,from, next) => {
     if(to.meta.requiresMetaMask && !getState('signer')){
+        console.log('passes here');
         next('/');
         notifyError("You are not Connected")
         return;
     }
-  
+    else if(['Admin Dashboard','Users','Logs'].includes(to.name) && !(getState('role')=='admin')){
+        next('/');
+        notifyError("You are not Authenticated")
+        return;
+    }
     next()
 })
 

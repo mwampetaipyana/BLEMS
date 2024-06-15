@@ -41,7 +41,7 @@
                         </div>
                         <div class="text-gray-500 text-sm">
                             With the BLEMS's transparency,<br> evidences and reports are efficiently transparent <br>
-                            to all parties involved in a case
+                            to all parties involved in a case.
                         </div> 
                     </div>
                     <div class="w-2/5 h-full bg-main2 flex items-center justify-center">
@@ -70,8 +70,8 @@
                             Corruption&nbsp;mitigation
                         </div>
                         <div class="text-gray-500 text-sm">
-                            BLEMS is built on a blockchain infrastructure <br>that ensures the security of data 
-                             making evidences tamper-proof
+                            BLEMS is built on a blockchain infrastructure <br>that ensures the security of data, 
+                             making evidences tamper-proof.
                         </div>
                     </div>
                     <div class="w-2/5 h-full bg-main2 flex items-center justify-center">

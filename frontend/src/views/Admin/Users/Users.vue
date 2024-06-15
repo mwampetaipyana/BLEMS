@@ -81,9 +81,6 @@
                                 </div>
                             </td>
                         </tr>
-                       
-                      
-                        
                     </tbody>
                 </v-table>
                 <div class="text-center">

@@ -72,7 +72,7 @@ export const login = async ()=> {
         setState('name',userType[0])
         setState('signer',signerAddress);
         setState('role',userType[1]);
-        router.push("/law_enforcement")
+        router.push("/user")
        }
        else {
         notifyError("Unauthorized User");

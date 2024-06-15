@@ -22,11 +22,6 @@ export default [
                 component: UsersView
             },
             {
-                path:'/allCases',
-                name:'All Cases',
-                component: CasesView
-            },
-            {
                 path:'/logs',
                 name:'Logs',
                 component: NotificationsView
