@@ -23,7 +23,7 @@ export default [
             },
             {
                 path:'/notifications',
-                name:'Notifications',
+                name:'Case Activity',
                 component:NotificationsView,
             }
         ]

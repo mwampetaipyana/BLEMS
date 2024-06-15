@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <div class="w-full flex flex-col">
+        <div v-if="!isLoading" class="w-full flex flex-col">
             <div class=" text-xl text-gray-800 font-semibold tracking-tighter font-sans mb-4">
                  My Cases
             </div>
@@ -154,7 +154,9 @@
                 </v-table>
             </div>
         </div>
-        
+        <div v-if="isLoading" v-motion-fade class="w-3/4 mx-auto py-8  p-4 flex flex-col">
+            <loader/>
+        </div>
     </div>
 </template>
 
@@ -163,8 +165,9 @@
     import NewCaseForm from "./NewCaseForm.vue";
     import SpecificCaseView from "../Cases/SpecificCase.vue"
     import { getState, getSignerContract, getDate } from "@/utils/contractService";
+    import loader from "@/components/Loader.vue"
 
-
+    const isLoading = ref(true)
     const role = ref('')
 
     const cases = ref([]);
@@ -201,7 +204,8 @@
     onMounted(async ()=>{
         role.value = getState('role') 
         await getMyCases();
-        getUserDetails();
+        await getUserDetails();
+        isLoading.value = false
     })
 
     const caseOverlay = ref(false)
