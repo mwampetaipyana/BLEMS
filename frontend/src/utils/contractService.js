@@ -4,8 +4,8 @@ import router from "@/router";
 import { notifyError, notifySuccess } from "./notificationService";
 
 //CONTRACT AND WALLET RELATED
-const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
-
+const contractAddress = "0xFACC651f96737c3b8EdA155cAe73C9D828422666"
+const INFURA_API_KEY = import.meta.env.VITE_APP_INFURA_API_KEY
 export const getProvider = () => {
     return new ethers.providers.Web3Provider(window.ethereum);
 }
@@ -19,7 +19,7 @@ export const getSignerContract = async () => {
 }
 
 export const getViewerContract = async () => {
-    const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
+    const provider = new ethers.providers.JsonRpcProvider(`https://sepolia.infura.io/v3/${INFURA_API_KEY}`);
     //let provider = getProvider()
     const contract = new ethers.Contract(contractAddress, abi, provider);
     return {  contract }

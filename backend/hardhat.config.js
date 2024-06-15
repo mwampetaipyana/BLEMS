@@ -6,6 +6,8 @@ require("dotenv").config();
 
 const HARDHAT_URL = process.env.HARDHAT_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const INFURA_API_KEY = process.env.INFURA_API_KEY;
+const SEPOLIA_PRIVATE_KEY = process.env.SEPOLIA_PRIVATE_KEY;
 
 module.exports =  {
   solidity: "0.8.19",
@@ -13,7 +15,11 @@ module.exports =  {
     LOCALHOST: {
       url: HARDHAT_URL,
       accounts:  [PRIVATE_KEY],
-    }
+    },
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
+      accounts: [SEPOLIA_PRIVATE_KEY],
+    },
   }
 };
 
