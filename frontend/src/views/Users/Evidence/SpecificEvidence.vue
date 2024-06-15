@@ -8,7 +8,7 @@
             <div class="text-2xl text-gray-700 font-semibold tracking-tighter font-sans">
                Item&nbsp;{{ oneEvidence.item_Number }}
            </div>
-           <!-- <v-btn :prepend-icon="maximize?'mdi-menu-up':'mdi-menu-down'" @click="maximize=!maximize" class="ml-auto" color="main" size="small" variant="outlined"><div class="font-bold">{{maximize?'minimize':'View item'}}</div> </v-btn> -->
+         <v-btn v-if="role=='forensic'" @click="downloadFile()" prepend-icon="mdi-download"  class="ml-auto" color="main" size="small" variant="outlined">Download</v-btn>
 
         </div>
            
@@ -71,5 +71,27 @@ const close = ()=>{
     emit('close')
 }
 
+const downloadFile = async()=> {
+    try {
+    const response = await fetch(getFileUrl()); 
+    if (!response.ok) {
+        throw new Error(`Failed to fetch image from Pinata (status: ${response.status})`);
+    }
+    const blob = await response.blob();
+    const contentType = response.headers.get('content-type');
+    const extension = contentType?.split('/')[1] || 'jpg';
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `image.${extension}`; 
+    link.click();
+
+    URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Error downloading image:", error);
+    }
+}
 
 </script>

@@ -33,7 +33,7 @@
                     Recently Modified
                 </div>
                 <div  class="flex flex-row xl:w-[80%] md:w-full justify-between">
-                    <!-- <div v-for="oneCase in recentlyAddedCases" :key="oneCase.case_no" class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
+                    <div v-for="oneCase in recentlyAddedCases" :key="oneCase.case_no" class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
                         <div class="absolute top-1 right-1 text-gray-400">
                             <span class="material-symbols-outlined">
                                 more_vert
@@ -50,12 +50,12 @@
                                 <div>{{oneCase.case_description}}</div>
                             </div>
                         </div> 
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="w-full flex flex-col">
+        <div v-if="!isLoading" class="w-full flex flex-col">
             <div class=" text-xl text-gray-800 font-semibold tracking-tighter font-sans mb-4">
                  My Cases
             </div>
@@ -154,7 +154,9 @@
                 </v-table>
             </div>
         </div>
-        
+        <div v-if="isLoading" v-motion-fade class="w-3/4 mx-auto py-8  p-4 flex flex-col">
+            <loader/>
+        </div>
     </div>
 </template>
 
@@ -163,8 +165,9 @@
     import NewCaseForm from "./NewCaseForm.vue";
     import SpecificCaseView from "../Cases/SpecificCase.vue"
     import { getState, getSignerContract, getDate } from "@/utils/contractService";
+    import loader from "@/components/Loader.vue"
 
-
+    const isLoading = ref(true)
     const role = ref('')
 
     const cases = ref([]);
@@ -201,7 +204,8 @@
     onMounted(async ()=>{
         role.value = getState('role') 
         await getMyCases();
-        getUserDetails();
+        await getUserDetails();
+        isLoading.value = false
     })
 
     const caseOverlay = ref(false)

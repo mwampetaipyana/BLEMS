@@ -94,3 +94,7 @@ export const login = async ()=> {
         const year = date.getFullYear();
         return `${month} ${day}, ${year}`;
     }
+
+    export const getNumber = (inBigNumber)=>{
+        return ethers.BigNumber.from(inBigNumber).toString();
+    }
