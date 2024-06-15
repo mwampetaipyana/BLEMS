@@ -3,7 +3,7 @@
         <div class="w-3/4 flex justify-start mx-auto mt-4">
            <v-btn prepend-icon="mdi-arrow-left" size="small" @click="close()" variant="outlined" color="red">back</v-btn>
         </div>
-       <div class="w-3/4 h-full mx-auto py-8  p-4 flex flex-col">
+       <div v-if="!isLoading" v-motion-fade class="w-3/4 h-full mx-auto py-8  p-4 flex flex-col">
         <div class="flex flex-row ">
             <div class="text-2xl text-gray-700 font-semibold tracking-tighter font-sans">
                Item&nbsp;{{ oneEvidence.item_Number }}
@@ -26,14 +26,13 @@
             <iframe
                 :src="getFileUrl()"
                 class="w-full h-[600px] border-none mb-5 aspect-w-16 aspect-h-9"
-                
                 frameborder="0"
     
             ></iframe>
            </div>
-
-         
-          
+       </div>
+       <div v-if="isLoading" v-motion-fade class="w-3/4 h-full mx-auto py-8  p-4 flex flex-col">
+            <loader/>
        </div>
     </div>       
 </template>
@@ -41,13 +40,16 @@
 <script setup>
 import {ref, onMounted} from "vue" 
 import { getState,getSignerContract } from "@/utils/contractService";
+import loader from "@/components/Loader.vue"
 
 const {oneEvidence} = defineProps(['oneEvidence'])
 const role = ref('')
+const isLoading = ref(true)
 
-onMounted(()=>{
+onMounted(async()=>{
     role.value = getState('role') 
-    getUserDetails();
+    await getUserDetails();
+    isLoading.value = false;
 })
 
 const addedBy = ref([])

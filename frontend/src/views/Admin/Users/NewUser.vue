@@ -4,7 +4,7 @@
             <div class="text-2xl text-gray-800 font-semibold tracking-tighter font-sans">
                 User Details
             </div>
-            <form class="h-[90%] flex flex-col justify-between my-4 font-sans text-sm transition-all duration-500 ease-in overflow-y-auto" >
+            <form @submit.prevent="registerUser()" class="h-[90%] flex flex-col justify-between my-4 font-sans text-sm transition-all duration-500 ease-in overflow-y-auto" >
                 <div class="w-full flex flex-col ">
                     <v-text-field
                     v-model="state.name"
@@ -49,7 +49,7 @@
                     </v-btn>
 
                     <v-btn
-                        @click="registerUser()"
+                        type="submit"
                         class="text-none"
                         color="main"
                         min-width="92"

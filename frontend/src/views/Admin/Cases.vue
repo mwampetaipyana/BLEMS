@@ -8,7 +8,6 @@
                         density="compact"
                         class="h-1/2 text-caption font-weight-bold font-sans"
                         width="50%"
-                        v-model="search"
                         label="Search"
                         prepend-inner-icon="mdi-magnify"
                         variant="solo-filled"
@@ -69,9 +68,7 @@
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
                                     <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -106,9 +103,7 @@
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
                                     <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -143,9 +138,7 @@
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
                                     <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
+                                   
                                 </div>
                             </td>
                         </tr>
@@ -180,19 +173,11 @@
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
                                     <div>April 24, 2024</div>
-                                    <button @click="specificCaseOverlay = !specificCaseOverlay" class="text-main font-bold hover:underline text-sm">
-                                        View
-                                    </button>
+                                   
                                 </div>
                             </td>
                         </tr>
-                        <div class="text-center">
-                            <v-overlay v-model="specificCaseOverlay">
-                                <div @click="specificCaseOverlay = !specificCaseOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
-                                    <SpecificCaseView @close="specificCaseOverlay = !specificCaseOverlay"/>
-                                </div>
-                            </v-overlay>
-                        </div>
+                       
                     </tbody>
                 </v-table>
             </div>

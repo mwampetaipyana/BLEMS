@@ -1,34 +1,30 @@
-import LawEnforcementLayoutView from "@/views/Law_enforcement/Layout.vue";
-import EvidenceView from "./Evidence/Evidence.vue";
+import LawEnforcementLayoutView from "@/views/Users/Layout.vue";
+//import EvidenceView from "./Evidence/Evidence.vue";
 import CasesView from "./Cases/Cases.vue";
 import DashboardView from "./Dashboard.vue";
 import NotificationsView from "./Notifications.vue";
 
 export default [
     {
-        path:'/law_enforcement',
-        name:'lawEnforcement',
+        path:'/user',
+        name:'User',
         component:LawEnforcementLayoutView,
+        meta: { requiresMetaMask: true },
         children:[
             {
                 path:'',
                 name:'Dashboard',
-                component:DashboardView
-            },
-            {
-                path:'/evidence',
-                name:'Evidence',
-                component:EvidenceView
+                component:DashboardView,
             },
             {
                 path:'/cases',
                 name:'Cases',
-                component:CasesView
+                component:CasesView,
             },
             {
                 path:'/notifications',
                 name:'Notifications',
-                component:NotificationsView
+                component:NotificationsView,
             }
         ]
     }

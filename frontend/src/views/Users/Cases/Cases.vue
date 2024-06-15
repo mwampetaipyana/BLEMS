@@ -20,7 +20,7 @@
            
             <div class="text-center">
                 <v-overlay v-model="caseOverlay">
-                    <div @click="caseOverlay = !caseOverlay"  class="w-screen h-screen p-2 flex items-center justify-center">
+                    <div  class="w-screen h-screen p-2 flex items-center justify-center">
                         <NewCaseForm @close="closeModal()"/>
                     </div>
                 </v-overlay>
@@ -33,7 +33,7 @@
                     Recently Modified
                 </div>
                 <div  class="flex flex-row xl:w-[80%] md:w-full justify-between">
-                    <div v-for="oneCase in recentlyAddedCases" :key="oneCase.case_no" class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
+                    <!-- <div v-for="oneCase in recentlyAddedCases" :key="oneCase.case_no" class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
                         <div class="absolute top-1 right-1 text-gray-400">
                             <span class="material-symbols-outlined">
                                 more_vert
@@ -50,7 +50,7 @@
                                 <div>{{oneCase.case_description}}</div>
                             </div>
                         </div> 
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -83,6 +83,8 @@
                 width="75%"
                 variant="comfortable"
                 fixed-header
+                loading-text="Loading... Please wait"
+                loading
                 >
                     <thead>
                         <tr>
@@ -93,7 +95,7 @@
                                 <span class="text-md text-gray-600 font-bold">Added By</span>
                             </th>
                             <th  style="background-color: #ebebeb;" class="text-left w-1/3">
-                                <span class="text-md text-gray-600 font-bold">Last&nbsp;modified</span>
+                                <span class="text-md text-gray-600 font-bold">Added&nbsp;on</span>
                             </th>
                         </tr>
                     </thead>
@@ -178,6 +180,7 @@
         const {signer,contract} = await getSignerContract()
         cases.value = await contract.getmyCase(signer.getAddress());
         displayedCases.value = cases.value
+        console.log(cases.value.length);
         const numberOfCases = cases.value.length;
         if(numberOfCases>=3){
             recentlyAddedCases.value[0]=cases.value[length-1]
@@ -242,3 +245,4 @@
     }
 </script>
 
+./SpecificCase.vue

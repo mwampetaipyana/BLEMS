@@ -37,11 +37,12 @@
                 <div class="flex min-h-32 h-1/2 flex-row w-[30%] max-md:w-full min-w-[300px] border-[1px] shadow shadow-main2 rounded-lg border-main2">
                     <div class="w-3/5  font-sans p-4 space-y-3">
                         <div class="text-md font-bold w-full">
-                            Justice&nbsp;is&nbsp;administered
+                            Administering&nbsp;of&nbsp;Justice
                         </div>
-                        <!-- <div class="text-gray-500 text-sm">
-                            easily launder money mates
-                        </div> -->
+                        <div class="text-gray-500 text-sm">
+                            With the BLEMS's transparency,<br> evidences and reports are efficiently transparent <br>
+                            to all parties involved in a case
+                        </div> 
                     </div>
                     <div class="w-2/5 h-full bg-main2 flex items-center justify-center">
                         <img class="h-3/4" src="/src/assets/images/hammer.png" alt="">
@@ -53,9 +54,10 @@
                         <div class="text-md font-bold w-full">
                             Bringing&nbsp;fair&nbsp;decisions
                         </div>
-                        <!-- <div class="text-gray-500 text-sm">
-                            easily launder money mates
-                        </div> -->
+                        <div class="text-gray-500 text-sm">
+                            The high traceability and auditability of the system,
+                            ensures that appropriate and fair decisions are made.
+                        </div>
                     </div>
                     <div class="w-2/5 h-full bg-main2">
                         <img class="h-full" src="/src/assets/images/scale.png" alt="">
@@ -65,11 +67,12 @@
                 <div class="flex flex-row w-[30%] min-h-32 h-1/2 max-md:w-full min-w-[300px] border-[1px] shadow shadow-main2 rounded-lg border-main2">
                     <div class="w-3/5 h-full font-sans p-4 space-y-3">
                         <div class="text-md font-bold w-full">
-                            Corruption&nbsp;is&nbsp;mitigated
+                            Corruption&nbsp;mitigation
                         </div>
-                        <!-- <div class="text-gray-500 text-sm">
-                            easily launder money mates
-                        </div> -->
+                        <div class="text-gray-500 text-sm">
+                            BLEMS is built on a blockchain infrastructure <br>that ensures the security of data 
+                             making evidences tamper-proof
+                        </div>
                     </div>
                     <div class="w-2/5 h-full bg-main2 flex items-center justify-center">
                         <img class="h-full" src="/src/assets/images/bribery-removebg.png" alt="">

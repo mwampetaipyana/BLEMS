@@ -2,26 +2,16 @@
     <div @click.stop="" class="w-1/2 min-w-fit h-3/4 bg-gray-50 rounded-lg">
         <div class="w-3/4 mx-auto py-8 p-4 flex flex-col">
             <div class="text-2xl text-gray-800 font-semibold tracking-tighter font-sans">
-                Evidence Details
+                Report Details
             </div>
-            <form class="my-4 font-sans text-sm" >
+            <form @click="addReport()" class="my-4 font-sans text-sm" >
                 <v-text-field
-                v-model="state.itemNo"
-                :error-messages="v$.itemNo.$errors.map(e => e.$message)"
-                label="Item number"
+                v-model="state.title"
+                :error-messages="v$.title.$errors.map(e => e.$message)"
+                label="Title"
                 required
-                @blur="v$.itemNo.$touch"
-                @input="v$.itemNo.$touch"
-                ></v-text-field>
-
-                <v-text-field
-                :disabled="case_no"
-                v-model="state.caseNo"
-                :error-messages="v$.caseNo.$errors.map(e => e.$message)"
-                label="Case number"
-                required
-                @blur="v$.caseNo.$touch"
-                @input="v$.caseNo.$touch"
+                @blur="v$.title.$touch"
+                @input="v$.title.$touch"
                 ></v-text-field>
 
                 <v-text-field
@@ -35,16 +25,17 @@
                 ></v-text-field>
 
                 <v-text-field
-                v-model="state.location"
-                :error-messages="v$.location.$errors.map(e => e.$message)"
-                label="Location of collection"
+                :disabled="case_no"
+                v-model="state.caseNo"
+                :error-messages="v$.caseNo.$errors.map(e => e.$message)"
+                label="Case number"
                 required
-                @blur="v$.location.$touch"
-                @input="v$.location.$touch"
+                @blur="v$.caseNo.$touch"
+                @input="v$.caseNo.$touch"
                 ></v-text-field>
 
                 <v-file-input
-                :multiple="true"
+                accept=".pdf,.docx,.doc"
                 v-model="state.file"
                 :error-messages="v$.file.$errors.map(e => e.$message)"
                 label="Evidence File"
@@ -66,12 +57,12 @@
                     </v-btn>
 
                     <v-btn
-                        @click="addEvidence()"
+                        :disabled="isSubmitted"
+                        type="submit"
                         class="text-none"
                         color="main"
                         min-width="92"
                         rounded
-                        
                     >
                         <div class="font-sans">Submit</div>
                     </v-btn>
@@ -90,13 +81,12 @@
     import { getSignerContract } from '@/utils/contractService';
 
     const {case_no} = defineProps(['case_no'])
-
+    const isSubmitted = ref(false)
 
     const initialState = {
-        itemNo: '',
+        title: '',
         caseNo: '',
         description: '',
-        location:'',
         file:null
     }
 
@@ -118,7 +108,7 @@
     ]
 
     const rules = {
-        itemNo: { required },
+        title: { required },
         caseNo: { required },
         collector: { required },
         description: { required },
@@ -142,15 +132,15 @@
         emit('close')
     }
 
-    const addEvidence = async()=> {
+    const addReport = async()=> {
+        isSubmitted.value = true;
         const {contract} =await getSignerContract();
-        const cid = await addFile(state.value.itemNo,state.value.file[0]);
+        const cid = await addFile(state.value.title,state.value.file[0]);
         console.log(`this is the cid : ${cid}`);
-        await contract.addEvidence(
-            state.value.itemNo,
-            state.value.caseNo,
+        await contract.uploadReport(
+            state.value.title,
             state.value.description,
-            state.value.location,
+            state.value.caseNo,
             cid
         )
         close();

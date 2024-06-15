@@ -8,7 +8,7 @@
                     density="compact"
                     width="20"
                     label="Filter"
-                    :items="['All', 'Judge', 'Law enforcement', 'Lawyer', 'Forensic']"
+                    :items="['All', 'judge', 'police', 'lawyer', 'forensic','prosecutor']"
                     variant="outlined"
                     ></v-select>
                 </div>
@@ -28,7 +28,7 @@
                     ></v-text-field>
                 </div>
             </div>
-            <div class="xl:w-[80%] md:w-full mr-auto">
+            <div v-motion-fade v-if="!isLoading" class="xl:w-[80%] md:w-full mr-auto">
                 <v-table
                 height="100%"
                 width="75%"
@@ -76,7 +76,7 @@
                             <td class="text-gray-600 font-sans">
                                 <div class="flex flex-row items-center space-x-4">
                                         <div class="font-bold text-gray-800">
-                                            <span class="text-gray-600">&nbsp;{{user.position}}</span> 
+                                            <span class="text-gray-600">&nbsp;{{ capitalize(user.position) }}</span> 
                                         </div>
                                 </div>
                             </td>
@@ -94,6 +94,9 @@
                             </v-overlay>
                         </div>
             </div>
+            <div v-if="isLoading" class="xl:w-[80%] md:w-full mr-auto">
+                    <loader/>
+            </div>
         </div>    
 </template>
 
@@ -102,12 +105,15 @@
  import {ref, onMounted, watch} from "vue"
  import NewUserView from "./NewUser.vue"
  import { getSignerContract } from "@/utils/contractService";
+ import Loader from "@/components/Loader.vue";
 
+ const isLoading = ref(true)
 
  const getUsers =async ()=>{
     const {contract} = await getSignerContract();
     users.value = await contract.getUsers();
     displayedUsers.value = users.value;
+    isLoading.value = false
 }
 
 const users = ref([])
@@ -144,4 +150,10 @@ const closeModal = ()=>{
       getUsers();
     }, 20000);
 }
+
+const capitalize = (text)=> {
+  if (!text) return ""; // Handle empty string case
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 </script>

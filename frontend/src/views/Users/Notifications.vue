@@ -18,14 +18,14 @@
                 </div>
         </div>
         <div v-for="(oneCase,index) in displayedCases" :key="oneCase.case_no" class="overflow-hidden transition duration-800 ease-in-out" :class="{'h-12':!(isExpanded && expandedCase == oneCase.case_no)}">
-            <div class="flex flex-row justify-between md:px-8 max-md:px-5  mb-2 mr-8 border-2 py-2 border-main">
+            <div class="flex flex-row justify-between md:px-8 max-md:px-5  mb-2 mr-8 border-2 py-2 border-main" :class="{'blur-sm':isExpanded && !(expandedCase == oneCase.case_no)}">
                 <div class="text-xl text-gray-700 font-semibold tracking-tighter font-sans">
                     Case&nbsp;{{ oneCase.case_no }}
                 </div>
                 <v-btn @click="toggleCase(oneCase.case_no,index)" color="main" density="comfortable" variant="text" :icon="(isExpanded && expandedCase == oneCase.case_no)?'mdi-arrow-up-drop-circle':'mdi-arrow-down-drop-circle'" size="medium"></v-btn>
             </div>
             
-            <div v-if="isExpanded" class="flex flex-col w-full">
+            <div v-if="isExpanded && expandedCase == oneCase.case_no" class="flex flex-col w-full">
                 <div v-for="(transaction,index2) in transactions[index]" :key="transaction" class=" mb-1 mr-8 border border-1 py-2 md:px-8 max-md:px-5 rounded-lg border-main">
                     <div class="flex flex-col">
                         <div class="text-main text-md font-semibold"> Action : {{transaction.transactionType}}</div>

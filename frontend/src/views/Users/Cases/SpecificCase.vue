@@ -1,6 +1,6 @@
 <template>
      <div v-if="!newEvidenceOverlay && !oneEvidenceOverlay && !newReportOverlay && !oneReportOverlay" @click.stop="" class="w-1/2 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 bg-gray-50 rounded-lg mx-auto">
-        <div class="w-3/4 h-full mx-auto py-8 p-4 flex flex-col">
+        <div v-if="!isLoading" class="w-3/4 h-full mx-auto py-8 p-4 flex flex-col">
             <div class="text-2xl text-gray-700 font-semibold tracking-tighter font-sans">
                 Case&nbsp;{{oneCase.case_no}}
             </div>
@@ -26,7 +26,7 @@
                                 <div class="text-lg text-gray-700 font-semibold tracking-tighter font-sans">
                                     Legal Participants
                                 </div>
-                                <v-btn v-if="role == 'prosecutor'" color="main"><div class="text-white">Add</div></v-btn>
+                                <!-- <v-btn v-if="role == 'prosecutor'" color="main"><div class="text-white">Add</div></v-btn> -->
 
                             </th>
                    
@@ -156,11 +156,14 @@
                    </tbody>
            </v-table>
         </div>
+        <div v-if="isLoading" class="w-3/4 h-full mx-auto py-8  p-4 flex flex-col">
+            <loader/>
+       </div>
      </div> 
      <NewEvidenceFormView v-if="newEvidenceOverlay" :case_no="oneCase.case_no" @close="closeModals()"/>
      <SpecificEvidenceView v-if="oneEvidenceOverlay" :one-evidence="viewedEvidence"  @close="oneEvidenceOverlay=!oneEvidenceOverlay"/>      
      <NewReportView v-if="newReportOverlay" :case_no="oneCase.case_no" @close="closeModals()" /> 
-     <SpecificReportView v-if="oneReportOverlay" :one-report="viewedReport"  @close="oneEvidenceOverlay=!oneEvidenceOverlay"/>      
+     <SpecificReportView v-if="oneReportOverlay" :one-report="viewedReport"  @close="oneReportOverlay=!oneReportOverlay"/>      
 </template>
 
 <script setup>
@@ -170,6 +173,8 @@ import NewEvidenceFormView from "../Evidence/NewEvidenceForm.vue";
 import SpecificEvidenceView from "../Evidence/SpecificEvidence.vue";
 import NewReportView from "../ForensicReports/NewReportForm.vue"
 import SpecificReportView from "../ForensicReports/SpecificReport.vue";
+import loader from "@/components/Loader.vue"
+
 
 const role = ref('')
 const {oneCase} = defineProps(['oneCase'])
@@ -186,14 +191,17 @@ const oneReportOverlay = ref(false)
 
 const viewedEvidence = ref([])
 const viewedReport = ref([])
+const isLoading = ref(true)
 
-onMounted(()=>{
+onMounted(async ()=>{
     role.value = getState('role') 
-    getUserDetails()
-    getEvidences()
-    getReports()
+    await getUserDetails()
+    await getEvidences()
+    await getReports()
+    isLoading.value = false;
     console.log(oneCase);
 })
+
 
 const getUserDetails = async ()=>{
     const {contract} = await getSignerContract()
@@ -206,8 +214,6 @@ const getEvidences = async ()=>{
     const {contract} = await getSignerContract()
     evidences.value = await contract.getEvidence(oneCase.case_no)
     evidences.value.forEach(async (evidence,index) => evidenceUploaders.value[index] =  await contract.login(evidence.collector))
-    console.log(evidences.value);
-    console.log(evidenceUploaders.value);
 }
 
 
@@ -230,7 +236,7 @@ const getReports = async ()=>{
         newReportOverlay.value = false
         newEvidenceOverlay.value = false
         setTimeout(() => {
-            getMyCases();
+            getReports();
             getEvidences();
         }, 20000);
     }

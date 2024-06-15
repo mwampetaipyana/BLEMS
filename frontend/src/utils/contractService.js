@@ -63,11 +63,13 @@ export const login = async ()=> {
         return 
 
        if(userType[1] === "admin"){
+        setState('name','BLEMS Admin')
         setState('signer',signerAddress);
         setState('role',"admin");
         router.push("/adm")
        }
        else if(userType[1] === "judge" || userType[1] === "forensic" || userType[1] === "prosecutor" || userType[1] === "police" || userType[1] === "user"){
+        setState('name',userType[0])
         setState('signer',signerAddress);
         setState('role',userType[1]);
         router.push("/law_enforcement")

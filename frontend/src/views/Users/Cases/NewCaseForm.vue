@@ -4,7 +4,7 @@
             <div class="text-2xl text-gray-800 font-semibold tracking-tighter font-sans">
                 Case Details
             </div> 
-            <form class="h-[90%] flex flex-col justify-between my-4 font-sans text-sm transition-all duration-500 ease-in overflow-y-auto" >
+            <form @submit.prevent="addNewCase()" class="h-[90%] flex flex-col justify-between my-4 font-sans text-sm transition-all duration-500 ease-in overflow-y-auto" >
                 <div class="w-full flex flex-col ">
                     <v-text-field
                     v-model="state.caseNo"
@@ -56,14 +56,16 @@
                                 required
                                 @blur="v$.participants.$touch"
                                 @input="v$.participants.$touch"
-                                @change="getParticipantDetails(n-1)"
                                 ></v-text-field>
                             </div>
-                            <div v-if="addedParticipants[n-1] " class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
+                            <div v-if="addedParticipants[n-1] && addedParticipants[n-1] && !(addedParticipants[n-1][0]=='')" class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
                                 {{addedParticipants[n-1][0]}} <span class="text-gray-600">({{addedParticipants[n-1][1]}})</span> 
                             </div>
                             <div v-if="state.participants[n-1] && !addedParticipants[n-1]" class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
-                                 <span class="text-gray-600">USER DOES NOT EXIST</span> 
+                                 <span class="text-gray-600">INVALID ADDRESS</span> 
+                            </div>
+                            <div v-if="state.participants[n-1] && (addedParticipants[n-1]&&addedParticipants[n-1][0]=='')" class="bg-[#30564b] bg-opacity-10 rounded-full flex px-3 h-[30px] items-center my-auto font-sans text-sm font-medium">
+                                 <span class="text-red-500">USER DOES NOT EXIST</span> 
                             </div>
                         </div>
                     </div>
@@ -84,12 +86,12 @@
                     </v-btn>
 
                     <v-btn
-                        :disabled="!validated"
+                        :disabled="isSubmitted || !validated"
                         class="text-none"
                         color="main"
                         min-width="92"
                         rounded
-                        @click="addNewCase()"
+                        type="submit"
                     >
                         <div class="font-sans">Submit</div>
                     </v-btn>
@@ -100,22 +102,33 @@
 </template>
 
 <script setup>
-    import { ref,computed } from 'vue'
+    import { ref,watch } from 'vue'
     import { useVuelidate } from '@vuelidate/core'
     import { integer, required } from '@vuelidate/validators'
     import { getSignerContract } from '@/utils/contractService';
+
+    const isSubmitted = ref(false)
 
     const addedParticipants = ref([])
     const validated = ref(true)
 
     const getParticipantDetails = async(updatedIndex)=>{
         const {contract} = await getSignerContract()
+        const userAddress = state.value.participants[updatedIndex]
         try{
-            addedParticipants.value[updatedIndex] = await contract.login(state.value.participants[updatedIndex])
+            if(userAddress.length!=42){
+                addedParticipants.value[updatedIndex] = null
+                validated.value = false
+                return;
+            }
+            addedParticipants.value[updatedIndex] = await contract.login(userAddress)
+            if(addedParticipants.value[updatedIndex][0]==''){
+                validated.value=false;
+            }
         }
         catch(err){
             console.log(err);
-            addedParticipants.value[updatedIndex]=null
+            addedParticipants.value[updatedIndex]= null
             validated.value = false
         }
     }
@@ -161,15 +174,13 @@
     const close = ()=>{
         emit('close')
     }
-/*
-    string memory _caseNo,
-        string memory _caseDescription,
-        uint256 _noParticipants,
-        address[] memory _participants
-*/ 
+    watch(()=>state.value.participants,()=>{
+        state.value.participants.forEach((participant,index) => getParticipantDetails(index))
+    }, { deep: true })
+
     const addNewCase = async()=>{
+        isSubmitted.value = true;
         const {contract,signer} = await getSignerContract()
-        console.log(state.value.participants[0]);
         const allParticipants = state.value.participants 
         await contract.addNewCase(state.value.caseNo, state.value.description, state.value.noOFPersons, allParticipants);
         close()

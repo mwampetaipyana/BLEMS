@@ -23,7 +23,7 @@
 
                     <div  
                     class=" absolute -bottom-28 rounded -left-24 w-[150px] bg-main font-sans text-white flex flex-col h-24 p-2 transition-all duration-400 ease-in" :class="{' opacity-0 -translate-y-4 cursor-not-allowed hidden':!showLogoutModal,' opacity-1 translate-y-0': showLogoutModal}">
-                        <div class="border-b-[1px] border-gray-50 text-sm text-left p-2">Pablo Escobar</div>
+                        <div class="border-b-[1px] border-gray-50 text-sm text-left p-2">{{getState('name')}}</div>
                         <button @click="logout()" class="flex flex-row items-center space-x-2 p-1 my-1 hover:bg-gray-100 hover:bg-opacity-10  hover:rounded-lg">
                             <span class="material-symbols-outlined">
                                 logout
@@ -55,21 +55,6 @@
                      dashboard
                 </span>
                     <div :class="{'opacity-0':!sidebarExpanded}" class="text-md font-semibold mt-auto" >Dashboard</div>
-
-                </router-link>
-
-                <router-link 
-                :to="{ name: 'Evidence' }"
-                v-motion
-                :initial="{ x: 60 }"
-                :enter="{ x: 0, transition: { duration: 1000 } }"
-                :class="{ 'bg-[#51751d] bg-opacity-10 text-gray-900':useRoute().name==='Evidence'}" 
-                class="py-1 flex flex-row px-2 space-x-4 border-[1px] border-transparent hover:border-[#51751d] text-gray-600  border-b-gray-200  mx-3 rounded-md transition-opacity duration-300 ease-in">
-               
-                    <span class="material-symbols-outlined">
-                        description
-                    </span>
-                    <span :class="{'opacity-0':!sidebarExpanded}" class="text-md font-semibold mt-auto" >Evidence</span>
 
                 </router-link>
 
@@ -136,7 +121,7 @@
 <script setup>
     import {ref,onMounted, computed} from 'vue'
     import {useRoute, useRouter} from 'vue-router'
-    import { logout,login } from '@/utils/contractService';
+    import { logout,login, getState } from '@/utils/contractService';
 
     const router = useRouter();
     const showLogoutModal = ref(false)

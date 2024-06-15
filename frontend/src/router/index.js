@@ -3,7 +3,7 @@ import AdminLayoutView from "@/views/Admin/Layout.vue"
 import {createRouter, createWebHistory} from "vue-router"
 import { getState } from "@/utils/contractService.js";
 import { notifyError, notifySuccess } from "../utils/notificationService.js";
-import lawEnforcementRoutes from "@/views/Law_enforcement/enforcementRoutes"
+import lawEnforcementRoutes from "@/views/Users/enforcementRoutes.js"
 import adminRoutes from "@/views/Admin/adminRoutes.js"
 const routes = [  
     {
@@ -13,7 +13,12 @@ const routes = [
     },
 
     ...lawEnforcementRoutes,
-    ...adminRoutes
+    ...adminRoutes,
+
+    {
+        path:'/:catchAll(.*)',
+        redirect:'/',
+    }
 ];
 
 const router=createRouter({
