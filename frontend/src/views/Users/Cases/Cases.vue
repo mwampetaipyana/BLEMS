@@ -33,7 +33,7 @@
                     Recently Modified
                 </div>
                 <div  class="flex flex-row xl:w-[80%] md:w-full justify-between">
-                    <!-- <div v-for="oneCase in recentlyAddedCases" :key="oneCase.case_no" class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
+                    <div v-for="oneCase in recentlyAddedCases" :key="oneCase.case_no" class="relative w-[30%] mr-2 min-w-fit flex flex-row items-center border-[0.5px] border-gray-300 rounded-md p-2 shadow"> 
                         <div class="absolute top-1 right-1 text-gray-400">
                             <span class="material-symbols-outlined">
                                 more_vert
@@ -50,7 +50,7 @@
                                 <div>{{oneCase.case_description}}</div>
                             </div>
                         </div> 
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
