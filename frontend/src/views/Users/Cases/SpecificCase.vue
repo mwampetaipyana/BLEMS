@@ -38,7 +38,7 @@
                             <td >
                                 <div class="flex flex-row md:justify-between max-md:flex-col text-sm mt-1">
                                     <div class="font-bold text-gray-800">
-                                       {{(legalParticipants.length>0)?legalParticipants[index][0]:''}}<span class="text-gray-600">&nbsp;({{(legalParticipants.length>0)?legalParticipants[index][1]:''}})&nbsp;</span> 
+                                       {{(legalParticipants.length>0)?legalParticipants[index][0]:''}}<span class="text-gray-600">&nbsp;({{(legalParticipants.length>0)?capitalize(legalParticipants[index][1]):''}})&nbsp;</span> 
                                     </div>
                                     <div class="font-sans font-medium text-ellipsis text-main">{{ participant }}</div>
                                 </div>
@@ -115,7 +115,7 @@
                                <div class="text-lg text-gray-700 font-semibold tracking-tighter font-sans">
                                     Attached Reports
                                </div>
-                               <v-btn @click="newReportOverlay=!newReportOverlay" v-if="role == 'forensic'"  color="main"><div class="text-white">Add</div></v-btn>
+                               <v-btn @click="newReportOverlay=!newReportOverlay" v-if="role == 'forensic' && evidences.length>0"  color="main"><div class="text-white">Add</div></v-btn>
                            </th>
                   
                        </tr>
@@ -140,9 +140,9 @@
                                <div class="flex flex-row items-center space-x-4">
                                    <div class="flex flex-col max-md:flex-col text-sm mt-1">
                                        <div class="font-bold text-gray-800">
-                                           Uploaded by Jojo J. Doe<span class="text-gray-600">&nbsp;(Forensics)&nbsp;</span> 
+                                           Uploaded by {{forensic.name}}<span class="text-gray-600">&nbsp;(Forensic)&nbsp;</span> 
                                        </div>
-                                       <div class="font-sans font-medium text-ellipsis text-main">0x1cC9B609187123a5d7b2D90a6985Acf15d43a2cb</div>
+                                       <div class="font-sans font-medium text-ellipsis text-main">{{forensic.address}}</div>
                                    </div>
                                    <div class="text-blue-600" title="view">
                                         <v-btn @click="viewReport(report)" class="text-blue-600" density="comfortable" variant="text" icon="mdi-eye" size="small"></v-btn>
@@ -168,7 +168,7 @@
 
 <script setup>
 import {ref, onMounted} from "vue" 
-import { getState,getSignerContract } from "@/utils/contractService";
+import { setObjectState,getState,getSignerContract, getObjectState } from "@/utils/contractService";
 import NewEvidenceFormView from "../Evidence/NewEvidenceForm.vue";
 import SpecificEvidenceView from "../Evidence/SpecificEvidence.vue";
 import NewReportView from "../ForensicReports/NewReportForm.vue"
@@ -192,6 +192,7 @@ const oneReportOverlay = ref(false)
 const viewedEvidence = ref([])
 const viewedReport = ref([])
 const isLoading = ref(true)
+const forensic = ref([])
 
 onMounted(async ()=>{
     role.value = getState('role') 
@@ -199,13 +200,18 @@ onMounted(async ()=>{
     await getEvidences()
     await getReports()
     isLoading.value = false;
-    console.log(oneCase);
 })
 
 
 const getUserDetails = async ()=>{
     const {contract} = await getSignerContract()
-    oneCase.participants.forEach(async (participant,index) => legalParticipants.value[index] =  await contract.login(participant))
+    oneCase.participants.forEach(async (participant,index) => {
+        legalParticipants.value[index] =  await contract.login(participant)
+        if(legalParticipants.value[index][1]=='forensic'){
+                forensic.value = {address:participant,name:legalParticipants.value[index][0]}
+                setObjectState('forensic',forensic.value)
+        }
+    })
     AddedBy.value = await contract.login(oneCase.addedBy)
 }
 
@@ -230,16 +236,20 @@ const viewReport = (report)=>{
 const getReports = async ()=>{
     const {contract} = await getSignerContract()
     reports.value = await contract.getReport(oneCase.case_no)
-    console.log(reports.value);
 }
-    const closeModals = ()=>{
-        newReportOverlay.value = false
-        newEvidenceOverlay.value = false
-        setTimeout(() => {
-            getReports();
-            getEvidences();
-        }, 20000);
-    }
+const closeModals = ()=>{
+    newReportOverlay.value = false
+    newEvidenceOverlay.value = false
+    setTimeout(() => {
+        getReports();
+        getEvidences();
+    }, 20000);
+}
+
+const capitalize = (text)=> {
+  if (!text) return ""; // Handle empty string case
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
 
 </script>
