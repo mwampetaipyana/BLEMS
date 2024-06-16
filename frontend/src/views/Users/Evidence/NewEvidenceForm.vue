@@ -46,7 +46,7 @@
                 <v-file-input
                 v-model="state.file"
                 :error-messages="v$.file.$errors.map(e => e.$message)"
-                accept="image/png, image/jpeg, image/bmp"
+                accept="image/png, image/jpeg, image/bmp, video/*, application/pdf"
                 label="Evidence File"
                 required
                 @blur="v$.file.$touch"

@@ -120,7 +120,10 @@
     const {contract} = await getSignerContract();
     users.value = await contract.getUsers();
     displayedUsers.value = users.value;
-    isLoading.value = false
+    if(role.value=='prosecutor'){
+        await getNumberOfCases(users.value);
+    }
+    isLoading.value = false;
 }
 
 const role = ref('')
@@ -131,7 +134,6 @@ const noOfCases = ref([])
  onMounted(async()=>{
     role.value = getState('role')
     await getUsers();
-    await getNumberOfCases(users.value);
  })
 
  const filter = ref('All');
@@ -153,7 +155,9 @@ const noOfCases = ref([])
 
             else return true;
         });
-        await getNumberOfCases(displayedUsers.value);
+        if(role.value=='prosecutor'){
+            await getNumberOfCases(displayedUsers.value);
+        }
 })
 
 const closeModal = ()=>{

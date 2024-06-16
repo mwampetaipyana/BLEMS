@@ -27,7 +27,7 @@
                 :src="getFileUrl()"
                 class="w-full h-[600px] border-none mb-5 aspect-w-16 aspect-h-9"
                 frameborder="0"
-    
+                allowfullscreen
             ></iframe>
            </div>
        </div>
@@ -75,23 +75,28 @@ const downloadFile = async()=> {
     try {
     const response = await fetch(getFileUrl()); 
     if (!response.ok) {
-        throw new Error(`Failed to fetch image from Pinata (status: ${response.status})`);
+        throw new Error(`Failed to fetch file from Pinata (status: ${response.status})`);
     }
     const blob = await response.blob();
     const contentType = response.headers.get('content-type');
-    const extension = contentType?.split('/')[1] || 'jpg';
+    const extension = getExtensionFromContentType(contentType) || 'jpg'; // jpg is default extension
 
     const url = URL.createObjectURL(blob);
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = `image.${extension}`; 
+    link.download = `image.${extension}`;
     link.click();
 
     URL.revokeObjectURL(url);
     } catch (error) {
-        console.error("Error downloading image:", error);
+        console.error("Error downloading File:", error);
     }
+}
+
+const getExtensionFromContentType = (contentType)=>{
+  if (!contentType) return null;
+  return contentType.split('/')[1];
 }
 
 </script>
