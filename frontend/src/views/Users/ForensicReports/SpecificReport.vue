@@ -27,6 +27,7 @@
                 :src="getFileUrl()"
                 class="w-full h-[600px] border-none mb-5 aspect-w-16 aspect-h-9"
                 frameborder="0"
+                allowfullscreen
             ></iframe>
            </div>
 
