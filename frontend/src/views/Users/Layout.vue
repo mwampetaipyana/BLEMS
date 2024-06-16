@@ -57,7 +57,21 @@
                     <div :class="{'opacity-0':!sidebarExpanded}" class="text-md font-semibold mt-auto" >Dashboard</div>
 
                 </router-link>
+                <router-link
+                v-if="role=='prosecutor'" 
+                :to="{ name: 'Users' }"
+                v-motion
+                :initial="{ x: 60 }"
+                :enter="{ x: 0, transition: { duration: 1000 } }"
+                :class="{ 'bg-[#51751d] bg-opacity-10 text-gray-900':useRoute().name==='Users'}" 
+                class="py-1 flex flex-row px-2 space-x-4 border-[1px] border-transparent hover:border-[#51751d] text-gray-600  border-b-gray-200  mx-3 rounded-md transition-opacity duration-300 ease-in">
+               
+                    <span class="material-symbols-outlined">
+                        description
+                    </span>
+                    <span :class="{'opacity-0':!sidebarExpanded}" class="text-md font-semibold mt-auto" >Users</span>
 
+                </router-link>
                 <router-link 
                 :to="{ name: 'Cases' }"
                 v-motion
@@ -127,7 +141,11 @@
     const showLogoutModal = ref(false)
     const sidebarExpanded = ref(true)
     const profile = ref({})
+    const role = ref('')
 
+    onMounted( ()=>{
+        role.value =  getState('role')
+    })
     const handleAccountsChanged = async()=>{
         logout();
         await login();
