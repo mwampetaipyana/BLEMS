@@ -135,7 +135,7 @@
     const addReport = async()=> {
         isSubmitted.value = true;
         const {contract} =await getSignerContract();
-        const cid = await addFile(state.value.title,state.value.file[0]);
+        const cid = await addFile(state.value.title,state.value.file);
         console.log(`this is the cid : ${cid}`);
         await contract.uploadReport(
             state.value.title,

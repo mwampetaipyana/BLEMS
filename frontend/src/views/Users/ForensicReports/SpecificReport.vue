@@ -19,7 +19,7 @@
                </div>
                
                <div class="flex flex-row space-x-2 text-sm font-[550] text-main">
-                   <div>added by {{addedBy[0]}},&nbsp;{{addedBy[1]}}</div>
+                   <div>added by {{forensic.name}},&nbsp;{{forensic.address}}</div>
                </div>
            </div> 
            <div class="h-fit transition-all duration-700 ease-in-out">
@@ -40,16 +40,17 @@
 
 <script setup>
 import {ref, onMounted} from "vue" 
-import { getState,getSignerContract } from "@/utils/contractService";
+import { getObjectState,getState,getSignerContract } from "@/utils/contractService";
 import loader from "@/components/Loader.vue"
 
 const {oneReport} = defineProps(['oneReport'])
 const role = ref('')
 const isLoading = ref(true);
+const forensic = ref([])
 
 onMounted(async()=>{
     role.value = getState('role')
-    console.log(oneReport);
+    forensic.value = getObjectState('forensic'); 
     //await getUserDetails();
     isLoading.value = false;
 })
@@ -64,8 +65,6 @@ const getUserDetails = async ()=>{
     const {contract} = await getSignerContract()
     addedBy.value = await contract.login(oneReport.writer)
 }
-
-
 
 const emit = defineEmits(["close"]);
 
