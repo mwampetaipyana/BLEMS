@@ -46,10 +46,13 @@
                                 <span class="text-md text-gray-600 font-bold">Position</span>
                                 <v-btn v-if="role=='admin'" @click="newUserOverlay = !newUserOverlay"  color="main"><div class="text-white">Add user</div></v-btn>
                             </th>
+                            <th v-if="role=='prosecutor'"  style="background-color: #ebebeb;" class="text-left w-1/3">
+                                <span class="text-md text-gray-600 font-bold">Number&nbsp;of&nbsp;Cases</span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="user in displayedUsers" :key="user.address" class="h-fit">
+                        <tr v-for="(user,index) in displayedUsers" :key="user.address" class="h-fit">
                             <td class="flex flex-row items-center h-full"> 
                                 <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                     <span class="material-symbols-outlined">
@@ -77,6 +80,13 @@
                                 <div class="flex flex-row items-center space-x-4">
                                         <div class="font-bold text-gray-800">
                                             <span class="text-gray-600">&nbsp;{{ capitalize(user.position) }}</span> 
+                                        </div>
+                                </div>
+                            </td>
+                            <td v-if="role=='prosecutor'" class="text-gray-600 font-sans">
+                                <div class="flex flex-row items-center space-x-4">
+                                        <div class="font-bold text-gray-800">
+                                            <span class="text-gray-600">&nbsp;{{ noOfCases[index] }}</span> 
                                         </div>
                                 </div>
                             </td>
@@ -112,13 +122,16 @@
     displayedUsers.value = users.value;
     isLoading.value = false
 }
+
 const role = ref('')
 const users = ref([])
 const displayedUsers = ref([])
+const noOfCases = ref([])
 
  onMounted(async()=>{
     role.value = getState('role')
     await getUsers();
+    await getNumberOfCases(users.value);
  })
 
  const filter = ref('All');
@@ -126,7 +139,7 @@ const displayedUsers = ref([])
  const search = ref('')
 
  //filters
- watch(()=> [search.value,filter.value], ()=>{
+ watch(async()=> [search.value,filter.value], async()=>{
         displayedUsers.value = users.value.filter(user =>{
             if(search.value && filter.value!='All'){
                 return  user.name.toLowerCase().includes(search.value.toLowerCase()) && user.position.includes(filter.value)
@@ -140,6 +153,7 @@ const displayedUsers = ref([])
 
             else return true;
         });
+        await getNumberOfCases(displayedUsers.value);
 })
 
 const closeModal = ()=>{
@@ -152,6 +166,14 @@ const closeModal = ()=>{
 const capitalize = (text)=> {
   if (!text) return ""; // Handle empty string case
   return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+const getNumberOfCases = async(users)=>{
+    users.forEach(async(user,index)=>{
+        const {contract} = await getSignerContract();
+        const mycases = await contract.getmyCase(user.userAddress);
+        noOfCases.value[index] = mycases.length;
+    })
 }
 
 </script>
