@@ -3,6 +3,7 @@ import LawEnforcementLayoutView from "@/views/Users/Layout.vue";
 import CasesView from "./Cases/Cases.vue";
 import DashboardView from "./Dashboard.vue";
 import NotificationsView from "./Notifications.vue";
+import UsersView from "@/views/Admin/Users/Users.vue"
 
 export default [
     {
@@ -20,6 +21,11 @@ export default [
                 path:'/cases',
                 name:'Cases',
                 component:CasesView,
+            },
+            {
+                path:'/registered_users',
+                name:'Registered Users',
+                component: UsersView
             },
             {
                 path:'/notifications',

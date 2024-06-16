@@ -44,7 +44,7 @@
                             </th>
                             <th  style="background-color: #ebebeb;" class="text-left w-full flex flex-row items-center justify-between space-x-4">
                                 <span class="text-md text-gray-600 font-bold">Position</span>
-                                <v-btn @click="newUserOverlay = !newUserOverlay"  color="main"><div class="text-white">Add user</div></v-btn>
+                                <v-btn v-if="role=='admin'" @click="newUserOverlay = !newUserOverlay"  color="main"><div class="text-white">Add user</div></v-btn>
                             </th>
                         </tr>
                     </thead>
@@ -101,7 +101,7 @@
 <script setup>
  import {ref, onMounted, watch} from "vue"
  import NewUserView from "./NewUser.vue"
- import { getSignerContract } from "@/utils/contractService";
+ import { getSignerContract, getState } from "@/utils/contractService";
  import Loader from "@/components/Loader.vue";
 
  const isLoading = ref(true)
@@ -112,12 +112,13 @@
     displayedUsers.value = users.value;
     isLoading.value = false
 }
-
+const role = ref('')
 const users = ref([])
 const displayedUsers = ref([])
 
  onMounted(async()=>{
-    getUsers();
+    role.value = getState('role')
+    await getUsers();
  })
 
  const filter = ref('All');
