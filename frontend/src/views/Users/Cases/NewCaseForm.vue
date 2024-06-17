@@ -38,7 +38,7 @@
                             :class="{'blur pointer-events-none':!state.addPersons}"
                             v-model="state.noOFPersons"
                             :error-messages="v$.noOFPersons.$errors.map(e => e.$message)"
-                            label="Number of Invloved Persons"
+                            label="Number of Participants"
                             required
                             @blur="v$.noOFPersons.$touch"
                             @input="v$.noOFPersons.$touch"
@@ -86,7 +86,8 @@
                     </v-btn>
 
                     <v-btn
-                        :disabled="isSubmitted || !validated"
+                        :loading="isSubmitted"
+                        :disabled="!validated"
                         class="text-none"
                         color="main"
                         min-width="92"
