@@ -13,7 +13,7 @@
 
                     <!-- class="bg-main font-sans py-2 px-3 text-white text-md rounded-[3px] hover:shadow-lg" -->
                    
-                    <v-btn @click="login()"  color="main"><div class="text-white">Connect</div></v-btn>
+                    <v-btn @click="connect()" :loading="isLoading"  color="main"><div class="text-white">Connect</div></v-btn>
                 </nav>
 
                 <div class="w-full h-[80%] rounded-[10px] bg-main2 md:min-w-[1200px] flex flex-row items-center px-8 font-sans max-md:py-8 mt-8 ">
@@ -89,7 +89,15 @@
 </template>
 
 <script setup>
+ import { ref } from 'vue'; 
  import {useRoute, useRouter} from 'vue-router'
  import { login } from '@/utils/contractService';
  const router = useRouter();
+
+ const isLoading = ref(false);
+
+ const connect = async()=>{
+    isLoading.value = true;
+    await login();
+ }
 </script>

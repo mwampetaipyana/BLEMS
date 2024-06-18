@@ -66,7 +66,7 @@
                     </v-btn>
 
                     <v-btn
-                        :disabled="isSubmitted"
+                        :loading="isSubmitted"
                         type = "submit"
                         class="text-none"
                         color="main"
