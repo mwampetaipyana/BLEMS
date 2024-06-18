@@ -99,5 +99,6 @@
  const connect = async()=>{
     isLoading.value = true;
     await login();
+    isLoading.value = false;
  }
 </script>

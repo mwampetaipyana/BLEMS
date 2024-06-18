@@ -1,5 +1,5 @@
 <template>
-    <div @click.stop="" class="w-1/2 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 overflow-y-auto bg-gray-50 rounded-lg mx-auto">
+    <div @click.stop="" class="w-2/3 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 overflow-y-auto bg-gray-50 rounded-lg mx-auto">
         <div class="w-3/4 flex justify-start mx-auto mt-4">
            <v-btn prepend-icon="mdi-arrow-left" size="small" @click="close()" variant="outlined" color="red">back</v-btn>
         </div>
@@ -23,12 +23,14 @@
                </div>
            </div> 
            <div class="h-fit transition-all duration-700 ease-in-out">
+
             <iframe
                 :src="getFileUrl()"
                 class="w-full h-[600px] border-none mb-5 aspect-w-16 aspect-h-9"
                 frameborder="0"
                 allowfullscreen
             ></iframe>
+            <!-- <video :src="getFileUrl()"/> -->
            </div>
        </div>
        <div v-if="isLoading" v-motion-fade class="w-3/4 h-full mx-auto py-8  p-4 flex flex-col">
@@ -55,6 +57,7 @@ onMounted(async()=>{
 const addedBy = ref([])
 
 const getFileUrl = ()=>{
+    //console.log(import.meta.env.VITE_APP_PINATA_GATEWAY + oneEvidence.evidenceCID);
     return import.meta.env.VITE_APP_PINATA_GATEWAY + oneEvidence.evidenceCID
 }
 

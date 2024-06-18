@@ -4,7 +4,7 @@ import router from "@/router";
 import { notifyError, notifySuccess } from "./notificationService";
 
 //CONTRACT AND WALLET RELATED
-const contractAddress = "0xFACC651f96737c3b8EdA155cAe73C9D828422666"
+const contractAddress = "0x8401C050D69766B8F9e334a0A7Cf019293B2Db75"
 const INFURA_API_KEY = import.meta.env.VITE_APP_INFURA_API_KEY
 export const getProvider = () => {
     return new ethers.providers.Web3Provider(window.ethereum);

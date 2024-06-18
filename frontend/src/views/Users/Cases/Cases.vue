@@ -198,14 +198,15 @@
     const getUserDetails = async ()=>{
         const {contract} = await getSignerContract()
         cases.value.forEach(async (oneCase,index) => userDetails.value[index] =  await contract.login(oneCase.addedBy))
+        console.log(userDetails.value);
     }
 
 
     onMounted(async ()=>{
         role.value = getState('role') 
         await getMyCases();
-        await getUserDetails();
-        isLoading.value = false
+        await getUserDetails().then( isLoading.value = false);
+       
     })
 
     const caseOverlay = ref(false)

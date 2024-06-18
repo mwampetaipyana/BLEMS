@@ -1,5 +1,5 @@
 <template>
-     <div v-if="!newEvidenceOverlay && !oneEvidenceOverlay && !newReportOverlay && !oneReportOverlay" @click.stop="" class="w-1/2 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 bg-gray-50 rounded-lg mx-auto">
+     <div v-if="!newEvidenceOverlay && !oneEvidenceOverlay && !newReportOverlay && !oneReportOverlay" @click.stop="" class="w-2/3 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 bg-gray-50 overflow-y-auto rounded-lg mx-auto">
         <div v-if="!isLoading" class="w-3/4 h-full mx-auto py-8 p-4 flex flex-col">
             <div class="text-2xl text-gray-700 font-semibold tracking-tighter font-sans">
                 Case&nbsp;{{oneCase.case_no}}
@@ -17,7 +17,7 @@
             <v-table
                 class="mt-12"
                 height="100%"
-                width="75%"
+                width="80%"
                 fixed-header
                 >
                     <thead>
@@ -34,8 +34,8 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="(participant,index) in oneCase.participants" :key="index">
-                            <td >
+                        <tr v-for="(participant,index) in oneCase.participants" :key="index" >
+                            <td>
                                 <div class="flex flex-row md:justify-between max-md:flex-col text-sm mt-1">
                                     <div class="font-bold text-gray-800">
                                        {{(legalParticipants.length>0)?legalParticipants[index][0]:''}}<span class="text-gray-600">&nbsp;({{(legalParticipants.length>0)?capitalize(legalParticipants[index][1]):''}})&nbsp;</span> 
@@ -52,7 +52,7 @@
             <v-table
                 class="mt-12"
                 height="100%"
-                width="75%"
+                width="80%"
                 fixed-header
                 >
                     <thead>
@@ -69,8 +69,8 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="(evidence,index) in evidences" :key="evidence.item_Number">
-                            <td class="flex flex-row items-center justify-between">
+                        <tr v-for="(evidence,index) in evidences" :key="evidence.item_Number" class="h-24 flex items-center justify-between">
+                            <td class="flex flex-row items-center justify-between w-full">
                                 <div class="flex flex-row items-center">
                                     <div class="bg-gray-200 h-10 w-10 rounded-md mr-2 flex items-center justify-center">
                                         <span class="material-symbols-outlined">
@@ -106,7 +106,7 @@
             <v-table
                class="mt-8"
                height="100%"
-               width="75%"
+               width="80%"
                fixed-header
                >
                    <thead>

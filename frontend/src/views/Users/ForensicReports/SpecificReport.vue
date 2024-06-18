@@ -1,5 +1,5 @@
 <template>
-    <div @click.stop="" class="w-1/2 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 overflow-y-auto bg-gray-50 rounded-lg mx-auto">
+    <div @click.stop="" class="w-2/3 max-md:w-[96%] max-md:h-full min-w-fit h-3/4 overflow-y-auto bg-gray-50 rounded-lg mx-auto">
         <div class="w-3/4 flex justify-start mx-auto mt-4">
            <v-btn prepend-icon="mdi-arrow-left" size="small" @click="close()" variant="outlined" color="red">back</v-btn>
         </div>
