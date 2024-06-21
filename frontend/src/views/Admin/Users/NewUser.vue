@@ -49,6 +49,7 @@
                     </v-btn>
 
                     <v-btn
+                        :loading="isLoading"
                         type="submit"
                         class="text-none"
                         color="main"
@@ -69,6 +70,7 @@
     import { required} from '@vuelidate/validators'
     import { getSignerContract } from '@/utils/contractService';
 
+    const isLoading = ref(false)
     const search = ref('')
 
     const userDetails = {
@@ -104,10 +106,8 @@
     }
 
     const registerUser = async()=>{
-        console.log(state.value.name);
-        console.log(state.value.address);
-        console.log(state.value.position);
-
+        isLoading.value = true;
+      
         const {contract} = await getSignerContract()
         await contract.addUser(state.value.name, state.value.address, state.value.position);
         close()
