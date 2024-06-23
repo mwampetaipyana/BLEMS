@@ -16,8 +16,9 @@
 The scope of this project aims to make handling evidence in Tanzanian legal stuff better, especially for the police and courts. The scope of the project encompasses the design and the development of an evidence management system with a focus on best evidence. It includes the creation of the user-friendly interface, secure chain of custody tracking, access control, and efficient retrieval mechanisms. The system aims to meet the needs of legal and investigative processes, promoting transparency, security, and operational efficiency in evidence management.
 
 ## Project Design
-
+### Conceptual Diagram
 ![alt text](BLEMS.png)
 
+###  Context diagram DFD
 
-
+![alt text](<Screenshot from 2024-06-23 13-54-55.png>)
